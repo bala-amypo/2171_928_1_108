@@ -17,5 +17,6 @@ public interface StudentService {
 
     void deleteStudent(Long id);
 
-    Student insertStudentity
+    Student insertStudentity(Student st);
+    
 }

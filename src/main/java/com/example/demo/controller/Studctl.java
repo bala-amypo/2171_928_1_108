@@ -10,7 +10,24 @@ import com.example.demo.service.Studservice;
 public class Studctl{
     @Autowired
     private Studservice ser;
-    
+
     @PostMapping("/add")
-    p
-}
+    public Studentity addStudent(@RequestBody Studentity st) {
+        return ser.saveData(st);
+    }
+    @GetMapping("/getall")
+    public Collection<Studentity> getAllStudents() {
+        return ser.getAll();
+    }
+    @GetMapping("get/{id}")
+    public Studentity getStudentById(@PathVariable int id) {
+        return ser.getById(id);
+    }
+    @PutMapping("/update/{id}")
+    public Studentity updateStudent(
+        @PathVariable int id;
+        @RequestBody Studentity st) {
+    
+        }
+    )
+    }

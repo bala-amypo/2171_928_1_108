@@ -22,8 +22,9 @@ public class EventRecordServiceImpl implements EventRecordService {
         if (repository.existsByEventCode(event.getEventCode())) {
             throw new BadRequestException("Event code already exists");
         }
-        if (event.getBasePrice() == null || event.getBasePrice() <= 0) {
-            throw new BadRequestException("Base price must be > 0");
+        if (event.getBasePrice() <= 0) {
+    throw new BadRequestException("Base price must be > 0");
+    }
         }
         return repository.save(event);
     }

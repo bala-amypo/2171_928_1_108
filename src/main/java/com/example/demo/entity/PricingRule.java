@@ -2,20 +2,22 @@ package com.example.demo.model;
 
 public class PricingRule {
 
+    private Long id;                     // NEW: for ID-based operations
     private String ruleCode;
     private String description;
     private double discountPercentage;
-    private double priceMultiplier;      // NEW
-    private int minRemainingSeats;       // NEW
-    private int maxRemainingSeats;       // NEW
-    private int daysBeforeEvent;         // NEW
+    private double priceMultiplier;
+    private int minRemainingSeats;
+    private int maxRemainingSeats;
+    private int daysBeforeEvent;
     private boolean active;
 
     public PricingRule() {}
 
-    public PricingRule(String ruleCode, String description, double discountPercentage,
+    public PricingRule(Long id, String ruleCode, String description, double discountPercentage,
                        double priceMultiplier, int minRemainingSeats, int maxRemainingSeats,
                        int daysBeforeEvent, boolean active) {
+        this.id = id;
         this.ruleCode = ruleCode;
         this.description = description;
         this.discountPercentage = discountPercentage;
@@ -27,6 +29,9 @@ public class PricingRule {
     }
 
     // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public String getRuleCode() { return ruleCode; }
     public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
 

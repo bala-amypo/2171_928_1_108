@@ -10,6 +10,7 @@ import java.util.Optional;
 public class PricingRuleServiceImpl implements PricingRuleService {
 
     private final List<PricingRule> pricingRules = new ArrayList<>();
+    private Long nextId = 1L; // auto-increment ID
 
     @Override
     public PricingRule createRule(PricingRule rule) {
@@ -21,26 +22,17 @@ public class PricingRuleServiceImpl implements PricingRuleService {
             throw new RuntimeException("Pricing rule with code " + rule.getRuleCode() + " already exists.");
         }
 
+        rule.setId(nextId++);
         pricingRules.add(rule);
         return rule;
     }
 
     @Override
-    public List<PricingRule> getAllRules() {
-        return new ArrayList<>(pricingRules);
-    }
-
-    @Override
-    public PricingRule getRuleByCode(String ruleCode) {
-        return pricingRules.stream()
-                .filter(r -> r.getRuleCode().equals(ruleCode))
+    public PricingRule updateRule(Long id, PricingRule updatedRule) {
+        PricingRule rule = pricingRules.stream()
+                .filter(r -> r.getId().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Pricing rule not found: " + ruleCode));
-    }
-
-    @Override
-    public PricingRule updateRule(String ruleCode, PricingRule updatedRule) {
-        PricingRule rule = getRuleByCode(ruleCode);
+                .orElseThrow(() -> new RuntimeException("Pricing rule not found: " + id));
 
         rule.setDescription(updatedRule.getDescription());
         rule.setDiscountPercentage(updatedRule.getDiscountPercentage());
@@ -54,8 +46,26 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
-    public void updateRuleStatus(String ruleCode, boolean active) {
-        PricingRule rule = getRuleByCode(ruleCode);
-        rule.setActive(active);
+    public List<PricingRule> getActiveRules() {
+        List<PricingRule> activeRules = new ArrayList<>();
+        for (PricingRule rule : pricingRules) {
+            if (rule.getActive()) {
+                activeRules.add(rule);
+            }
+        }
+        return activeRules;
+    }
+
+    @Override
+    public PricingRule getRuleByCode(String ruleCode) {
+        return pricingRules.stream()
+                .filter(r -> r.getRuleCode().equals(ruleCode))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Pricing rule not found: " + ruleCode));
+    }
+
+    @Override
+    public List<PricingRule> getAllRules() {
+        return new ArrayList<>(pricingRules);
     }
 }

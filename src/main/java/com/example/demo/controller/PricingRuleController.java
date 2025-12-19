@@ -34,7 +34,7 @@ public class PricingRuleController {
         return service.getActiveRules();
     }
 
-    @GetMapping("/{ruleCode}")
+    @GetMapping("/{ruleCode}/by-code")
     public PricingRule getByCode(@PathVariable String ruleCode) {
         return service.getRuleByCode(ruleCode);
     }

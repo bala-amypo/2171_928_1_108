@@ -1,6 +1,16 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class PriceAdjustmentLog {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Primary key auto-generated
+    private Long id;
 
     private Long eventId;
     private Double oldPrice;
@@ -13,6 +23,14 @@ public class PriceAdjustmentLog {
         this.eventId = eventId;
         this.oldPrice = oldPrice;
         this.newPrice = newPrice;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getEventId() {
@@ -39,4 +57,3 @@ public class PriceAdjustmentLog {
         this.newPrice = newPrice;
     }
 }
-    

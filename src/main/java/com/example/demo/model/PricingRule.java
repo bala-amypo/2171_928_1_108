@@ -1,41 +1,59 @@
 package com.example.demo.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class PricingRule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String ruleCode;
-    private String description;
-    private double discountPercentage;
+
+    private String ruleName;
+    private Double discountPercentage;
     private boolean active;
-    private int minRemainingSeats;
-    private int maxRemainingSeats;
-    private int daysBeforeEvent;
-    private double priceMultiplier;
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public PricingRule() {
+    }
 
-    public String getRuleCode() { return ruleCode; }
-    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
+    public PricingRule(String ruleName, Double discountPercentage, boolean active) {
+        this.ruleName = ruleName;
+        this.discountPercentage = discountPercentage;
+        this.active = active;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public Long getId() {
+        return id;
+    }
 
-    public double getDiscountPercentage() { return discountPercentage; }
-    public void setDiscountPercentage(double discountPercentage) { this.discountPercentage = discountPercentage; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public boolean getActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public String getRuleName() {
+        return ruleName;
+    }
 
-    public int getMinRemainingSeats() { return minRemainingSeats; }
-    public void setMinRemainingSeats(int minRemainingSeats) { this.minRemainingSeats = minRemainingSeats; }
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
 
-    public int getMaxRemainingSeats() { return maxRemainingSeats; }
-    public void setMaxRemainingSeats(int maxRemainingSeats) { this.maxRemainingSeats = maxRemainingSeats; }
+    public Double getDiscountPercentage() {
+        return discountPercentage;
+    }
 
-    public int getDaysBeforeEvent() { return daysBeforeEvent; }
-    public void setDaysBeforeEvent(int daysBeforeEvent) { this.daysBeforeEvent = daysBeforeEvent; }
+    public void setDiscountPercentage(Double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
 
-    public double getPriceMultiplier() { return priceMultiplier; }
-    public void setPriceMultiplier(double priceMultiplier) { this.priceMultiplier = priceMultiplier; }
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

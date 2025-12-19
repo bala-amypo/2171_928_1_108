@@ -13,7 +13,6 @@ public class PricingRuleServiceImpl implements PricingRuleService {
 
     @Override
     public PricingRule createRule(PricingRule rule) {
-        // Check for duplicate ruleCode
         Optional<PricingRule> existing = pricingRules.stream()
                 .filter(r -> r.getRuleCode().equals(rule.getRuleCode()))
                 .findFirst();
@@ -32,16 +31,17 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
-    public PricingRule updateRule(String ruleCode, PricingRule updatedRule) {
-        Optional<PricingRule> existing = pricingRules.stream()
+    public PricingRule getRuleByCode(String ruleCode) {
+        return pricingRules.stream()
                 .filter(r -> r.getRuleCode().equals(ruleCode))
-                .findFirst();
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Pricing rule not found: " + ruleCode));
+    }
 
-        if (existing.isEmpty()) {
-            throw new RuntimeException("Pricing rule not found: " + ruleCode);
-        }
+    @Override
+    public PricingRule updateRule(String ruleCode, PricingRule updatedRule) {
+        PricingRule rule = getRuleByCode(ruleCode);
 
-        PricingRule rule = existing.get();
         rule.setDescription(updatedRule.getDescription());
         rule.setDiscountPercentage(updatedRule.getDiscountPercentage());
         rule.setPriceMultiplier(updatedRule.getPriceMultiplier());
@@ -55,14 +55,7 @@ public class PricingRuleServiceImpl implements PricingRuleService {
 
     @Override
     public void updateRuleStatus(String ruleCode, boolean active) {
-        Optional<PricingRule> existing = pricingRules.stream()
-                .filter(r -> r.getRuleCode().equals(ruleCode))
-                .findFirst();
-
-        if (existing.isEmpty()) {
-            throw new RuntimeException("Pricing rule not found: " + ruleCode);
-        }
-
-        existing.get().setActive(active);
+        PricingRule rule = getRuleByCode(ruleCode);
+        rule.setActive(active);
     }
 }

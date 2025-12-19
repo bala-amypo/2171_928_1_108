@@ -6,6 +6,7 @@ import com.example.demo.service.DynamicPricingEngineService;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineService {
@@ -39,5 +40,15 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
         }
 
         return finalPrice;
+    }
+
+    @Override
+    public List<Double> getAllComputedPrices(List<EventRecord> events) {
+        List<Double> prices = new ArrayList<>();
+        for (EventRecord event : events) {
+            // Assuming full capacity calculation (example: event.getTotalSeats())
+            prices.add(calculateDynamicPrice(event, event.getRemainingSeats()));
+        }
+        return prices;
     }
 }

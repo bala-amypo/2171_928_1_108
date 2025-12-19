@@ -1,8 +1,9 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.EventRecord;
 import com.example.demo.repository.EventRecordRepository;
+import com.example.demo.service.EventRecordService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,20 +13,22 @@ public class EventRecordServiceImpl implements EventRecordService {
 
     private final EventRecordRepository repository;
 
-    // REQUIRED constructor order
+    // ✅ Constructor Injection (MANDATORY)
     public EventRecordServiceImpl(EventRecordRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public EventRecord createEvent(EventRecord event) {
+
         if (repository.existsByEventCode(event.getEventCode())) {
             throw new BadRequestException("Event code already exists");
         }
+
         if (event.getBasePrice() <= 0) {
-    throw new BadRequestException("Base price must be > 0");
-    }
+            throw new BadRequestException("Base price must be > 0");
         }
+
         return repository.save(event);
     }
 
@@ -45,9 +48,12 @@ public class EventRecordServiceImpl implements EventRecordService {
     }
 
     @Override
-    public void updateEventStatus(Long id, boolean active) {
-        EventRecord event = getEventById(id);
+    public EventRecord updateEventStatus(Long id, boolean active) {
+        EventRecord event = repository.findById(id).orElse(null);
+        if (event == null) {
+            return null;
+        }
         event.setActive(active);
-        repository.save(event);
+        return repository.save(event);
     }
 }

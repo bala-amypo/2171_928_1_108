@@ -24,4 +24,8 @@ public class SeatInventoryRecord {
     public Integer getRemainingSeats() {
         return remainingSeats;
     }
+
+    public void setRemainingSeats(Integer remainingSeats) {
+        this.remainingSeats = remainingSeats;
+    }
 }

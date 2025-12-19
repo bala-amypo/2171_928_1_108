@@ -9,23 +9,28 @@ public class PricingRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String ruleCode;
     private String description;
     private Double priceMultiplier;
     private Boolean active;
 
-    public Long getId() {
-        return id;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getDescription() {
-        return description;
+    public void setPriceMultiplier(Double priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
     }
 
-    public Double getPriceMultiplier() {
-        return priceMultiplier;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public Boolean getActive() {
         return active;
+    }
+
+    public Double getPriceMultiplier() {
+        return priceMultiplier;
     }
 }

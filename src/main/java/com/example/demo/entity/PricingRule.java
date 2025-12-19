@@ -1,37 +1,53 @@
 package com.example.demo.model;
 
 public class PricingRule {
-    private Long id;
-    private String ruleCode;       // add this
-    private String description;    // add this
-    private Integer minRemainingSeats;
-    private Integer maxRemainingSeats;
-    private Integer daysBeforeEvent;
-    private Double priceMultiplier; // Use Double instead of double
-    private Boolean active;        // add this
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    private String ruleCode;
+    private String description;
+    private double discountPercentage;
+    private boolean active;
 
-    public String getRuleCode() { return ruleCode; }
-    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
+    // Default constructor
+    public PricingRule() {}
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    // Parameterized constructor
+    public PricingRule(String ruleCode, String description, double discountPercentage, boolean active) {
+        this.ruleCode = ruleCode;
+        this.description = description;
+        this.discountPercentage = discountPercentage;
+        this.active = active;
+    }
 
-    public Integer getMinRemainingSeats() { return minRemainingSeats; }
-    public void setMinRemainingSeats(Integer minRemainingSeats) { this.minRemainingSeats = minRemainingSeats; }
+    // Getters and Setters
+    public String getRuleCode() {
+        return ruleCode;
+    }
 
-    public Integer getMaxRemainingSeats() { return maxRemainingSeats; }
-    public void setMaxRemainingSeats(Integer maxRemainingSeats) { this.maxRemainingSeats = maxRemainingSeats; }
+    public void setRuleCode(String ruleCode) {
+        this.ruleCode = ruleCode;
+    }
 
-    public Integer getDaysBeforeEvent() { return daysBeforeEvent; }
-    public void setDaysBeforeEvent(Integer daysBeforeEvent) { this.daysBeforeEvent = daysBeforeEvent; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Double getPriceMultiplier() { return priceMultiplier; }
-    public void setPriceMultiplier(Double priceMultiplier) { this.priceMultiplier = priceMultiplier; }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public double getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

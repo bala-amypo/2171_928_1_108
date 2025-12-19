@@ -1,9 +1,13 @@
 package com.example.demo.service;
 
-import java.util.List;
 import com.example.demo.model.PriceAdjustmentLog;
+import java.util.List;
 
 public interface PriceAdjustmentLogService {
-    List<PriceAdjustmentLog> getAllLogs();
-    PriceAdjustmentLog saveLog(PriceAdjustmentLog log);
+
+    void logAdjustment(PriceAdjustmentLog log); // save a new adjustment
+
+    List<PriceAdjustmentLog> getAdjustmentsByEvent(Long eventId); // get logs by event
+
+    List<PriceAdjustmentLog> getAllAdjustments(); // get all logs
 }

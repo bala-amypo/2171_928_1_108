@@ -12,16 +12,19 @@ public class PricingRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String ruleName;
-    private Double discountPercentage;
-    private boolean active;
+    private String ruleCode;      // corresponds to getRuleCode()
+    private String description;
+    private Double adjustmentValue;
+    private boolean active;       // corresponds to getActive()
 
     public PricingRule() {
     }
 
-    public PricingRule(String ruleName, Double discountPercentage, boolean active) {
-        this.ruleName = ruleName;
-        this.discountPercentage = discountPercentage;
+    public PricingRule(Long id, String ruleCode, String description, Double adjustmentValue, boolean active) {
+        this.id = id;
+        this.ruleCode = ruleCode;
+        this.description = description;
+        this.adjustmentValue = adjustmentValue;
         this.active = active;
     }
 
@@ -33,23 +36,31 @@ public class PricingRule {
         this.id = id;
     }
 
-    public String getRuleName() {
-        return ruleName;
+    public String getRuleCode() {
+        return ruleCode;
     }
 
-    public void setRuleName(String ruleName) {
-        this.ruleName = ruleName;
+    public void setRuleCode(String ruleCode) {
+        this.ruleCode = ruleCode;
     }
 
-    public Double getDiscountPercentage() {
-        return discountPercentage;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDiscountPercentage(Double discountPercentage) {
-        this.discountPercentage = discountPercentage;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public boolean isActive() {
+    public Double getAdjustmentValue() {
+        return adjustmentValue;
+    }
+
+    public void setAdjustmentValue(Double adjustmentValue) {
+        this.adjustmentValue = adjustmentValue;
+    }
+
+    public boolean getActive() {
         return active;
     }
 

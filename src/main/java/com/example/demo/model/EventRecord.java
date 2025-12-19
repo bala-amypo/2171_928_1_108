@@ -1,39 +1,59 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
 public class EventRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String eventCode;
-    private String name;
-    private LocalDate eventDate;
-    private double basePrice;
-    private int totalSeats;
-    private int remainingSeats;
+    private String eventName;
     private boolean active;
 
-    // Getters and setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public EventRecord() {
+    }
 
-    public String getEventCode() { return eventCode; }
-    public void setEventCode(String eventCode) { this.eventCode = eventCode; }
+    public EventRecord(String eventCode, String eventName, boolean active) {
+        this.eventCode = eventCode;
+        this.eventName = eventName;
+        this.active = active;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public Long getId() {
+        return id;
+    }
 
-    public LocalDate getEventDate() { return eventDate; }
-    public void setEventDate(LocalDate eventDate) { this.eventDate = eventDate; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public double getBasePrice() { return basePrice; }
-    public void setBasePrice(double basePrice) { this.basePrice = basePrice; }
+    public String getEventCode() {
+        return eventCode;
+    }
 
-    public int getTotalSeats() { return totalSeats; }
-    public void setTotalSeats(int totalSeats) { this.totalSeats = totalSeats; }
+    public void setEventCode(String eventCode) {
+        this.eventCode = eventCode;
+    }
 
-    public int getRemainingSeats() { return remainingSeats; }
-    public void setRemainingSeats(int remainingSeats) { this.remainingSeats = remainingSeats; }
+    public String getEventName() {
+        return eventName;
+    }
 
-    public boolean getActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public void setEventName(String eventName) {
+        this.eventName = eventName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

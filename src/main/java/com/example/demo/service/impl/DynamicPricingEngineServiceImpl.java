@@ -1,4 +1,3 @@
-DynamicPricingEngineServiceImpl.java (FIXED)
 package com.example.demo.service.impl;
 
 import com.example.demo.exception.BadRequestException;
@@ -25,7 +24,7 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
     private final DynamicPriceRecordRepository priceRepository;
     private final PriceAdjustmentLogRepository logRepository;
 
-    // 🔹 REQUIRED constructor order (DO NOT CHANGE)
+    // REQUIRED constructor order (do not change)
     public DynamicPricingEngineServiceImpl(
             EventRecordRepository eventRepository,
             SeatInventoryRecordRepository inventoryRepository,

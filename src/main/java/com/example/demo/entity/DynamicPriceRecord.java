@@ -1,10 +1,18 @@
+package com.example.demo.model;
+
+import java.time.LocalDateTime;
+
 public class DynamicPriceRecord {
+    private Long id;
     private Long eventId;
     private double computedPrice;
     private String appliedRuleCodes;
     private LocalDateTime computedAt;
 
-    // Getters and setters
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
     public Long getEventId() { return eventId; }
     public void setEventId(Long eventId) { this.eventId = eventId; }
 

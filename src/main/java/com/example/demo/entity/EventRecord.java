@@ -1,19 +1,32 @@
+package com.example.demo.model;
+
+import java.time.LocalDate;
+
 public class EventRecord {
     private Long id;
-    private LocalDate eventDate; // make sure this exists
-    private Double basePrice;
-    private Boolean active;
+    private String eventCode;
+    private LocalDate eventDate;
+    private int totalSeats;
+    private int remainingSeats;
+    private boolean active;
 
-    // Add getters and setters for all fields
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getEventCode() { return eventCode; }
+    public void setEventCode(String eventCode) { this.eventCode = eventCode; }
+
     public LocalDate getEventDate() { return eventDate; }
     public void setEventDate(LocalDate eventDate) { this.eventDate = eventDate; }
 
-    public Double getBasePrice() { return basePrice; }
-    public void setBasePrice(Double basePrice) { this.basePrice = basePrice; }
+    public int getTotalSeats() { return totalSeats; }
+    public void setTotalSeats(int totalSeats) { this.totalSeats = totalSeats; }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public int getRemainingSeats() { return remainingSeats; }
+    public void setRemainingSeats(int remainingSeats) { this.remainingSeats = remainingSeats; }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }
+``

@@ -19,20 +19,26 @@ public class SeatInventoryServiceImpl implements SeatInventoryService {
     }
 
     @Override
-    public SeatInventoryRecord getInventoryByEvent(Long eventId) {
-        Optional<SeatInventoryRecord> inventory = inventories.stream()
-                .filter(i -> i.getEventId().equals(eventId))
+    public SeatInventoryRecord updateRemainingSeats(Long eventId, Integer remainingSeats) {
+        Optional<SeatInventoryRecord> optionalInventory = inventories.stream()
+                .filter(inv -> inv.getEventId().equals(eventId))
                 .findFirst();
 
-        return inventory.orElse(null); // ✅ FIXED
+        if (optionalInventory.isPresent()) {
+            SeatInventoryRecord inventory = optionalInventory.get();
+            inventory.setRemainingSeats(remainingSeats); // update the seats
+            return inventory;
+        }
+
+        return null; // or throw exception if inventory not found
     }
 
     @Override
-    public void updateRemainingSeats(Long eventId, Integer remainingSeats) {
-        SeatInventoryRecord inventory = getInventoryByEvent(eventId);
-        if (inventory != null) {
-            inventory.setRemainingSeats(remainingSeats);
-        }
+    public SeatInventoryRecord getInventoryByEvent(Long eventId) {
+        return inventories.stream()
+                .filter(inv -> inv.getEventId().equals(eventId))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override

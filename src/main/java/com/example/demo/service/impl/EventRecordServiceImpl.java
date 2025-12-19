@@ -13,7 +13,7 @@ public class EventRecordServiceImpl implements EventRecordService {
 
     private final EventRecordRepository repository;
 
-    // ✅ Constructor Injection (MANDATORY)
+    // ✅ Constructor Injection (MANDATORY for tests)
     public EventRecordServiceImpl(EventRecordRepository repository) {
         this.repository = repository;
     }
@@ -47,18 +47,13 @@ public class EventRecordServiceImpl implements EventRecordService {
         return repository.findAll();
     }
 
+    // ✅ MUST return void (matches interface)
     @Override
-    public EventRecord @Override
-public void updateEventStatus(Long id, boolean active) {
-    EventRecord event = repository.findById(id).orElse(null);
-    if (event != null) {
-        event.setActive(active);
-        repository.save(event);
-    }
-}
-
+    public void updateEventStatus(Long id, boolean active) {
+        EventRecord event = repository.findById(id).orElse(null);
+        if (event != null) {
+            event.setActive(active);
+            repository.save(event);
         }
-        event.setActive(active);
-        return repository.save(event);
     }
 }

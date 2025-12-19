@@ -33,7 +33,7 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     public List<PricingRule> getActiveRules() {
         List<PricingRule> activeRules = new ArrayList<>();
         for (PricingRule rule : rules) {
-            if (rule.isActive()) {
+            if (rule.getActive()) {   // ✅ FIXED
                 activeRules.add(rule);
             }
         }

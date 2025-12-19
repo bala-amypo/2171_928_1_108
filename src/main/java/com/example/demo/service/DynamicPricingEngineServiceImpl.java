@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service   // 🔴 REQUIRED
+@Service
 public class DynamicPricingEngineServiceImpl
         implements DynamicPricingEngineService {
 
@@ -17,8 +17,9 @@ public class DynamicPricingEngineServiceImpl
     public DynamicPriceRecord computeDynamicPrice(Long eventId) {
         DynamicPriceRecord record = new DynamicPriceRecord();
         record.setEventId(eventId);
-        record.setPrice(100.0); // dummy value
-        record.setCalculatedAt(LocalDateTime.now());
+        record.setComputedPrice(100.0); // dummy value
+        record.setComputedAt(LocalDateTime.now());
+        record.setAppliedRuleCodes("DEFAULT");
 
         history.add(record);
         return record;

@@ -7,7 +7,7 @@ public interface SeatInventoryService {
 
     SeatInventoryRecord createInventory(SeatInventoryRecord inventory);
 
-    void updateRemainingSeats(Long eventId, Integer remainingSeats);
+    SeatInventoryRecord updateRemainingSeats(Long eventId, Integer remainingSeats);
 
     SeatInventoryRecord getInventoryByEvent(Long eventId);
 

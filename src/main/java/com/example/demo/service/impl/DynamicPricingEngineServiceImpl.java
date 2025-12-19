@@ -1,8 +1,17 @@
-package com.example.demo.service;
+DynamicPricingEngineServiceImpl.java (FIXED)
+package com.example.demo.service.impl;
 
 import com.example.demo.exception.BadRequestException;
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.DynamicPriceRecord;
+import com.example.demo.model.EventRecord;
+import com.example.demo.model.PricingRule;
+import com.example.demo.model.SeatInventoryRecord;
+import com.example.demo.repository.DynamicPriceRecordRepository;
+import com.example.demo.repository.EventRecordRepository;
+import com.example.demo.repository.PriceAdjustmentLogRepository;
+import com.example.demo.repository.PricingRuleRepository;
+import com.example.demo.repository.SeatInventoryRecordRepository;
+import com.example.demo.service.DynamicPricingEngineService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +25,7 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
     private final DynamicPriceRecordRepository priceRepository;
     private final PriceAdjustmentLogRepository logRepository;
 
-    // REQUIRED constructor order
+    // 🔹 REQUIRED constructor order (DO NOT CHANGE)
     public DynamicPricingEngineServiceImpl(
             EventRecordRepository eventRepository,
             SeatInventoryRecordRepository inventoryRepository,
@@ -37,25 +46,27 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
         EventRecord event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new BadRequestException("Event is not active"));
 
-        if (!event.getActive()) {
+        if (!Boolean.TRUE.equals(event.getActive())) {
             throw new BadRequestException("Event is not active");
         }
 
         SeatInventoryRecord inventory = inventoryRepository.findByEventId(eventId)
                 .orElseThrow(() -> new BadRequestException("Seat inventory not found"));
 
-        double price = event.getBasePrice();
+        double finalPrice = event.getBasePrice();
 
-        for (PricingRule rule : ruleRepository.findByActiveTrue()) {
-            if (rule.getPriceMultiplier() <= 0) {
+        List<PricingRule> rules = ruleRepository.findByActiveTrue();
+
+        for (PricingRule rule : rules) {
+            if (rule.getPriceMultiplier() == null || rule.getPriceMultiplier() <= 0) {
                 throw new BadRequestException("Price multiplier must be > 0");
             }
-            price = price * rule.getPriceMultiplier();
+            finalPrice = finalPrice * rule.getPriceMultiplier();
         }
 
         DynamicPriceRecord record = new DynamicPriceRecord();
         record.setEventId(eventId);
-        record.setComputedPrice(price);
+        record.setComputedPrice(finalPrice);
         record.setAppliedRuleCodes("AUTO");
 
         return priceRepository.save(record);
@@ -76,4 +87,3 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
         return priceRepository.findAll();
     }
 }
-`

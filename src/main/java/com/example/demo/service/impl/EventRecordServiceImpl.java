@@ -1,59 +1,74 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.EventRecord;
-import com.example.demo.repository.EventRecordRepository;
 import com.example.demo.service.EventRecordService;
-import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public class EventRecordServiceImpl implements EventRecordService {
 
-    private final EventRecordRepository repository;
-
-    // ✅ Constructor Injection (MANDATORY for tests)
-    public EventRecordServiceImpl(EventRecordRepository repository) {
-        this.repository = repository;
-    }
+    private final List<EventRecord> events = new ArrayList<>();
 
     @Override
     public EventRecord createEvent(EventRecord event) {
-
-        if (repository.existsByEventCode(event.getEventCode())) {
-            throw new BadRequestException("Event code already exists");
-        }
-
-        if (event.getBasePrice() <= 0) {
-            throw new BadRequestException("Base price must be > 0");
-        }
-
-        return repository.save(event);
+        events.add(event);
+        return event;
     }
 
     @Override
-    public EventRecord getEventById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
+    public EventRecord updateEvent(EventRecord updatedEvent) {
+        Optional<EventRecord> existingEventOpt = events.stream()
+                .filter(e -> e.getId().equals(updatedEvent.getId()))
+                .findFirst();
 
-    @Override
-    public EventRecord getEventByCode(String eventCode) {
-        return repository.findByEventCode(eventCode).orElse(null);
+        if (existingEventOpt.isPresent()) {
+            EventRecord existingEvent = existingEventOpt.get();
+            existingEvent.setEventCode(updatedEvent.getEventCode());
+            existingEvent.setName(updatedEvent.getName());
+            existingEvent.setEventDate(updatedEvent.getEventDate());
+            existingEvent.setBasePrice(updatedEvent.getBasePrice());
+            existingEvent.setTotalSeats(updatedEvent.getTotalSeats());
+            existingEvent.setRemainingSeats(updatedEvent.getRemainingSeats());
+            existingEvent.setActive(updatedEvent.getActive());
+            return existingEvent;
+        } else {
+            throw new IllegalArgumentException("EventRecord not found: " + updatedEvent.getId());
+        }
     }
 
     @Override
     public List<EventRecord> getAllEvents() {
-        return repository.findAll();
+        return new ArrayList<>(events);
     }
 
-    // ✅ MUST return void (matches interface)
+    @Override
+    public EventRecord getEventById(Long id) {
+        return events.stream()
+                .filter(e -> e.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public EventRecord getEventByCode(String eventCode) {
+        return events.stream()
+                .filter(e -> e.getEventCode().equals(eventCode))
+                .findFirst()
+                .orElse(null);
+    }
+
     @Override
     public void updateEventStatus(Long id, boolean active) {
-        EventRecord event = repository.findById(id).orElse(null);
-        if (event != null) {
-            event.setActive(active);
-            repository.save(event);
-        }
+        Optional<EventRecord> eventOpt = events.stream()
+                .filter(e -> e.getId().equals(id))
+                .findFirst();
+        eventOpt.ifPresent(e -> e.setActive(active));
+    }
+
+    @Override
+    public void deleteEvent(Long id) {
+        events.removeIf(e -> e.getId().equals(id));
     }
 }

@@ -48,10 +48,15 @@ public class EventRecordServiceImpl implements EventRecordService {
     }
 
     @Override
-    public EventRecord updateEventStatus(Long id, boolean active) {
-        EventRecord event = repository.findById(id).orElse(null);
-        if (event == null) {
-            return null;
+    public EventRecord @Override
+public void updateEventStatus(Long id, boolean active) {
+    EventRecord event = repository.findById(id).orElse(null);
+    if (event != null) {
+        event.setActive(active);
+        repository.save(event);
+    }
+}
+
         }
         event.setActive(active);
         return repository.save(event);

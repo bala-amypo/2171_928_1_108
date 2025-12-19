@@ -77,8 +77,10 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
     }
 
     @Override
-    public DynamicPriceRecord getLatestPrice(Long eventId) {
-        return priceRepository.findFirstByEventIdOrderByComputedAtDesc(eventId);
+    public DynamicPriceRecord latest =
+    dynamicPriceRecordRepository
+        .findFirstByEventIdOrderByComputedAtDesc(eventId)
+        .orElse(null);
     }
 
     @Override

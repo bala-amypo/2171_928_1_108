@@ -18,9 +18,9 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
-    public PricingRule updateRule(PricingRule updatedRule) {
+    public PricingRule updateRule(Long id, PricingRule updatedRule) {
         Optional<PricingRule> existingRuleOpt = pricingRules.stream()
-                .filter(r -> r.getId().equals(updatedRule.getId()))
+                .filter(r -> r.getId().equals(id))
                 .findFirst();
 
         if (existingRuleOpt.isPresent()) {
@@ -35,13 +35,8 @@ public class PricingRuleServiceImpl implements PricingRuleService {
             existingRule.setPriceMultiplier(updatedRule.getPriceMultiplier());
             return existingRule;
         } else {
-            throw new IllegalArgumentException("PricingRule not found: " + updatedRule.getId());
+            throw new IllegalArgumentException("PricingRule not found: " + id);
         }
-    }
-
-    @Override
-    public List<PricingRule> getAllRules() {
-        return new ArrayList<>(pricingRules);
     }
 
     @Override
@@ -56,15 +51,15 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
-    public PricingRule getRuleById(Long id) {
+    public PricingRule getRuleByCode(String ruleCode) {
         return pricingRules.stream()
-                .filter(r -> r.getId().equals(id))
+                .filter(r -> r.getRuleCode().equals(ruleCode))
                 .findFirst()
                 .orElse(null);
     }
 
     @Override
-    public void deleteRule(Long id) {
-        pricingRules.removeIf(r -> r.getId().equals(id));
+    public List<PricingRule> getAllRules() {
+        return new ArrayList<>(pricingRules);
     }
 }

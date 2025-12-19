@@ -1,43 +1,19 @@
-package com.example.demo.model;
-
-import jakarta.persistence.*;
-
-@Entity
 public class EventRecord {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private LocalDate eventDate; // make sure this exists
+    private Double basePrice;
+    private Boolean active;
 
-    private String eventCode;
-    private double basePrice;
-    private boolean active;
+    // Add getters and setters for all fields
+    public LocalDate getEventDate() { return eventDate; }
+    public void setEventDate(LocalDate eventDate) { this.eventDate = eventDate; }
 
-    public Long getId() {
-        return id;
-    }
+    public Double getBasePrice() { return basePrice; }
+    public void setBasePrice(Double basePrice) { this.basePrice = basePrice; }
 
-    public String getEventCode() {
-        return eventCode;
-    }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
 
-    public void setEventCode(String eventCode) {
-        this.eventCode = eventCode;
-    }
-
-    public double getBasePrice() {
-        return basePrice;
-    }
-
-    public void setBasePrice(double basePrice) {
-        this.basePrice = basePrice;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class SeatInventoryRecord {
@@ -13,13 +12,16 @@ public class SeatInventoryRecord {
     private Long eventId;
     private Integer totalSeats;
     private Integer remainingSeats;
-    private LocalDateTime updatedAt;
 
-    @PrePersist
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    public Long getEventId() {
+        return eventId;
     }
 
-    // getters & setters
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+    public Integer getRemainingSeats() {
+        return remainingSeats;
+    }
 }

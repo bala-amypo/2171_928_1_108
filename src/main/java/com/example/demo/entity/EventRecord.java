@@ -6,21 +6,30 @@ public class EventRecord {
     private Long id;
     private String eventCode;
     private LocalDate eventDate;
-    private int totalSeats;
-    private int remainingSeats;
-    private boolean active;
+    private Integer totalSeats;
+    private Integer remainingSeats;
+    private Boolean active;    // add this
+    private Double basePrice;  // add this
 
     // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
     public String getEventCode() { return eventCode; }
     public void setEventCode(String eventCode) { this.eventCode = eventCode; }
+
     public LocalDate getEventDate() { return eventDate; }
     public void setEventDate(LocalDate eventDate) { this.eventDate = eventDate; }
-    public int getTotalSeats() { return totalSeats; }
-    public void setTotalSeats(int totalSeats) { this.totalSeats = totalSeats; }
-    public int getRemainingSeats() { return remainingSeats; }
-    public void setRemainingSeats(int remainingSeats) { this.remainingSeats = remainingSeats; }
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+
+    public Integer getTotalSeats() { return totalSeats; }
+    public void setTotalSeats(Integer totalSeats) { this.totalSeats = totalSeats; }
+
+    public Integer getRemainingSeats() { return remainingSeats; }
+    public void setRemainingSeats(Integer remainingSeats) { this.remainingSeats = remainingSeats; }
+
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+
+    public Double getBasePrice() { return basePrice; }
+    public void setBasePrice(Double basePrice) { this.basePrice = basePrice; }
 }

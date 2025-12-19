@@ -1,55 +1,68 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
-import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.PricingRule;
-import com.example.demo.repository.PricingRuleRepository;
-import org.springframework.stereotype.Service;
+import com.example.demo.service.PricingRuleService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@Service
 public class PricingRuleServiceImpl implements PricingRuleService {
 
-    private final PricingRuleRepository repository;
-
-    // REQUIRED constructor order
-    public PricingRuleServiceImpl(PricingRuleRepository repository) {
-        this.repository = repository;
-    }
+    private final List<PricingRule> pricingRules = new ArrayList<>();
 
     @Override
     public PricingRule createRule(PricingRule rule) {
-        if (rule.getPriceMultiplier() == null || rule.getPriceMultiplier() <= 0) {
-            throw new BadRequestException("Price multiplier must be > 0");
+        // Check for duplicate ruleCode
+        Optional<PricingRule> existing = pricingRules.stream()
+                .filter(r -> r.getRuleCode().equals(rule.getRuleCode()))
+                .findFirst();
+
+        if (existing.isPresent()) {
+            throw new RuntimeException("Pricing rule with code " + rule.getRuleCode() + " already exists.");
         }
-        return repository.save(rule);
-    }
 
-    @Override
-    public PricingRule updateRule(Long id, PricingRule updatedRule) {
-        PricingRule rule = repository.findById(id).orElse(null);
-        rule.setDescription(updatedRule.getDescription());
-        rule.setPriceMultiplier(updatedRule.getPriceMultiplier());
-        rule.setActive(updatedRule.getActive());
-        return repository.save(rule);
-    }
-
-    @Override
-    public List<PricingRule> getActiveRules() {
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public PricingRule getRuleByCode(String ruleCode) {
-        return repository.findAll()
-                .stream()
-                .filter(r -> r.getRuleCode().equals(ruleCode))
-                .findFirst()
-                .orElse(null);
+        pricingRules.add(rule);
+        return rule;
     }
 
     @Override
     public List<PricingRule> getAllRules() {
-        return repository.findAll();
+        return new ArrayList<>(pricingRules);
+    }
+
+    @Override
+    public PricingRule updateRule(String ruleCode, PricingRule updatedRule) {
+        Optional<PricingRule> existing = pricingRules.stream()
+                .filter(r -> r.getRuleCode().equals(ruleCode))
+                .findFirst();
+
+        if (existing.isEmpty()) {
+            throw new RuntimeException("Pricing rule not found: " + ruleCode);
+        }
+
+        PricingRule rule = existing.get();
+        rule.setDescription(updatedRule.getDescription());
+        rule.setDiscountPercentage(updatedRule.getDiscountPercentage());
+        rule.setPriceMultiplier(updatedRule.getPriceMultiplier());
+        rule.setMinRemainingSeats(updatedRule.getMinRemainingSeats());
+        rule.setMaxRemainingSeats(updatedRule.getMaxRemainingSeats());
+        rule.setDaysBeforeEvent(updatedRule.getDaysBeforeEvent());
+        rule.setActive(updatedRule.getActive());
+
+        return rule;
+    }
+
+    @Override
+    public void updateRuleStatus(String ruleCode, boolean active) {
+        Optional<PricingRule> existing = pricingRules.stream()
+                .filter(r -> r.getRuleCode().equals(ruleCode))
+                .findFirst();
+
+        if (existing.isEmpty()) {
+            throw new RuntimeException("Pricing rule not found: " + ruleCode);
+        }
+
+        existing.get().setActive(active);
     }
 }

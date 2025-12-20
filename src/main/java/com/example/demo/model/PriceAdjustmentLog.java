@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "price_adjustment_log")
 public class PriceAdjustmentLog {
 
     @Id
@@ -19,5 +20,23 @@ public class PriceAdjustmentLog {
     private Double newPrice;
     private String reason;
 
-    // getters & setters
+    public PriceAdjustmentLog() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getEventId() { return eventId; }
+    public void setEventId(Long eventId) { this.eventId = eventId; }
+
+    public EventRecord getEvent() { return event; }
+    public void setEvent(EventRecord event) { this.event = event; }
+
+    public Double getOldPrice() { return oldPrice; }
+    public void setOldPrice(Double oldPrice) { this.oldPrice = oldPrice; }
+
+    public Double getNewPrice() { return newPrice; }
+    public void setNewPrice(Double newPrice) { this.newPrice = newPrice; }
+
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 }

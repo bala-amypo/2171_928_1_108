@@ -3,6 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "pricing_rule")
 public class PricingRule {
 
     @Id
@@ -16,5 +17,22 @@ public class PricingRule {
     private Double priceMultiplier;
     private boolean active;
 
-    // getters & setters
+    public PricingRule() {}
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getRuleCode() { return ruleCode; }
+    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public Double getPriceMultiplier() { return priceMultiplier; }
+    public void setPriceMultiplier(Double priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
+    }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 }

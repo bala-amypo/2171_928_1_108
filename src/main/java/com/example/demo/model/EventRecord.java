@@ -37,3 +37,4 @@ public class EventRecord {
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
 }
+kill -9 $(lsof -t -i:9001)

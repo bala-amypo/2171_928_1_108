@@ -10,22 +10,13 @@ public class SeatInventoryRecord {
     private Long id;
 
     private Long eventId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "eventId", insertable = false, updatable = false)
+    private EventRecord event;
+
     private Integer totalSeats;
     private Integer remainingSeats;
 
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public Integer getTotalSeats() {
-        return totalSeats;
-    }
-
-    public Integer getRemainingSeats() {
-        return remainingSeats;
-    }
-
-    public void setRemainingSeats(Integer remainingSeats) {
-        this.remainingSeats = remainingSeats;
-    }
+    // getters & setters
 }

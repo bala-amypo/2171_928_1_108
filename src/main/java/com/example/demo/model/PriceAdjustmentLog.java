@@ -1,59 +1,23 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class PriceAdjustmentLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // ✅ Primary key auto-generated
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long eventId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "eventId", insertable = false, updatable = false)
+    private EventRecord event;
+
     private Double oldPrice;
     private Double newPrice;
+    private String reason;
 
-    public PriceAdjustmentLog() {
-    }
-
-    public PriceAdjustmentLog(Long eventId, Double oldPrice, Double newPrice) {
-        this.eventId = eventId;
-        this.oldPrice = oldPrice;
-        this.newPrice = newPrice;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public Double getOldPrice() {
-        return oldPrice;
-    }
-
-    public void setOldPrice(Double oldPrice) {
-        this.oldPrice = oldPrice;
-    }
-
-    public Double getNewPrice() {
-        return newPrice;
-    }
-
-    public void setNewPrice(Double newPrice) {
-        this.newPrice = newPrice;
-    }
+    // getters & setters
 }

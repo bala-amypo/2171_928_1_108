@@ -13,4 +13,3 @@ public interface UserService {
 
     void deleteUser(Long id);
 }
-kill -9 $(lsof -t -i:9001)

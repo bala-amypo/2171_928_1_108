@@ -37,3 +37,4 @@ public class EventRecord {
     public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
 }
+java  12345 coder  TCP *:9001

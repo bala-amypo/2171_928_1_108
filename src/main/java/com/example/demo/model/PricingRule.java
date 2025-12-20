@@ -10,7 +10,7 @@ public class PricingRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String ruleCode;
 
     private String description;
@@ -19,20 +19,48 @@ public class PricingRule {
 
     public PricingRule() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getRuleCode() { return ruleCode; }
-    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public String getRuleCode() {
+        return ruleCode;
+    }
 
-    public Double getPriceMultiplier() { return priceMultiplier; }
+    public void setRuleCode(String ruleCode) {
+        this.ruleCode = ruleCode;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Double getPriceMultiplier() {
+        return priceMultiplier;
+    }
+
     public void setPriceMultiplier(Double priceMultiplier) {
         this.priceMultiplier = priceMultiplier;
     }
 
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    // ✅ KEEP BOTH METHODS — NO ERROR ANYWHERE
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

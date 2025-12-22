@@ -52,7 +52,7 @@ public class DynamicPricingEngineServiceImpl
         // 3️⃣ Base price (static for now)
         double finalPrice = 100.0;
 
-        // 4️⃣ Apply active rules (NO threshold/multiplier)
+        // 4️⃣ Apply active pricing rules
         List<PricingRule> rules = ruleRepo.findAll();
         StringBuilder appliedRules = new StringBuilder();
 
@@ -62,12 +62,14 @@ public class DynamicPricingEngineServiceImpl
             }
         }
 
-        // 5️⃣ Save Dynamic Price
+        // 5️⃣ Save result
         DynamicPriceRecord record = new DynamicPriceRecord();
         record.setEventId(eventId);
         record.setComputedPrice(finalPrice);
         record.setAppliedRuleCodes(
-                appliedRules.length() > 0 ? appliedRules.toString() : "NO_RULE");
+                appliedRules.length() > 0
+                        ? appliedRules.substring(0, appliedRules.length() - 1)
+                        : "NO_RULE");
         record.setComputedAt(LocalDateTime.now());
 
         return dynamicRepo.save(record);

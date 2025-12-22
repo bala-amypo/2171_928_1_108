@@ -1,3 +1,8 @@
+package com.example.demo.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "dynamic_price_record")
 public class DynamicPriceRecord {
@@ -17,7 +22,6 @@ public class DynamicPriceRecord {
     public DynamicPriceRecord() {}
 
     public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
     public Long getEventId() { return eventId; }
     public void setEventId(Long eventId) { this.eventId = eventId; }

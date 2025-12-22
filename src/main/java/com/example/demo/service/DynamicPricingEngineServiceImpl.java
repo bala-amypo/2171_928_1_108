@@ -90,3 +90,4 @@ public class DynamicPricingEngineServiceImpl
         return dynamicRepo.findAll();
     }
 }
+lsof -i :9001

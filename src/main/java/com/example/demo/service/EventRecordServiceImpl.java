@@ -1,50 +1,46 @@
 package com.example.demo.service;
 
 import com.example.demo.model.EventRecord;
+import com.example.demo.repository.EventRecordRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class EventRecordServiceImpl implements EventRecordService {
 
-    private final List<EventRecord> events = new ArrayList<>();
+    private final EventRecordRepository repository;
+
+    public EventRecordServiceImpl(EventRecordRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public EventRecord createEvent(EventRecord event) {
-        events.add(event);
-        return event;
+        return repository.save(event); // ✅ DB SAVE
     }
 
     @Override
     public EventRecord getEventById(Long id) {
-        return events.stream()
-                .filter(e -> e.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return repository.findById(id).orElse(null);
     }
 
     @Override
     public EventRecord getEventByCode(String eventCode) {
-        return events.stream()
-                .filter(e -> e.getEventCode().equals(eventCode))
-                .findFirst()
-                .orElse(null);
+        return repository.findByEventCode(eventCode);
     }
 
     @Override
     public List<EventRecord> getAllEvents() {
-        return events;
+        return repository.findAll();
     }
 
     @Override
     public void updateEventStatus(Long id, boolean active) {
-        for (EventRecord event : events) {
-            if (event.getId().equals(id)) {
-                event.setActive(active);
-                break;
-            }
+        EventRecord event = repository.findById(id).orElse(null);
+        if (event != null) {
+            event.setActive(active);
+            repository.save(event);
         }
     }
 }

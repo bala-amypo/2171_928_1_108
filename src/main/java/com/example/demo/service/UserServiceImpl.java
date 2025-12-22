@@ -1,39 +1,40 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
 
-    private final List<User> users = new ArrayList<>();
-    private Long nextId = 1L;
+    private final UserRepository userRepository;
+
+    // Constructor Injection
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User createUser(User user) {
-        user.setId(nextId++);
-        users.add(user);
-        return user;
+        return userRepository.save(user);   // ✅ DB INSERT
     }
 
     @Override
     public User getUserById(Long id) {
-        Optional<User> user = users.stream().filter(u -> u.getId().equals(id)).findFirst();
-        return user.orElse(null);
+        return userRepository.findById(id)
+                .orElse(null);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return new ArrayList<>(users);
+        return userRepository.findAll();
     }
 
     @Override
     public void deleteUser(Long id) {
-        users.removeIf(u -> u.getId().equals(id));
+        userRepository.deleteById(id);
     }
 }

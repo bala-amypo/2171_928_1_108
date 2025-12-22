@@ -1,7 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.model.*;
-import com.example.demo.repository.*;
+import com.example.demo.model.DynamicPriceRecord;
+import com.example.demo.model.EventRecord;
+import com.example.demo.model.PricingRule;
+import com.example.demo.model.SeatInventoryRecord;
+import com.example.demo.repository.DynamicPriceRecordRepository;
+import com.example.demo.repository.EventRecordRepository;
+import com.example.demo.repository.PricingRuleRepository;
+import com.example.demo.repository.SeatInventoryRecordRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -31,7 +37,7 @@ public class DynamicPricingEngineServiceImpl
     @Override
     public DynamicPriceRecord computeDynamicPrice(Long eventId) {
 
-        // 1️⃣ Fetch event
+        // 1️⃣ Validate Event
         EventRecord event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 
@@ -39,29 +45,29 @@ public class DynamicPricingEngineServiceImpl
             throw new RuntimeException("Event is inactive");
         }
 
-        // 2️⃣ Fetch inventory
+        // 2️⃣ Validate Inventory
         SeatInventoryRecord inventory = inventoryRepo.findByEventId(eventId)
                 .orElseThrow(() -> new RuntimeException("Inventory not found"));
 
-        // 3️⃣ Base price
-        double finalPrice = event.getBasePrice();
+        // 3️⃣ Base price (static for now)
+        double finalPrice = 100.0;
+
+        // 4️⃣ Apply active rules (NO threshold/multiplier)
+        List<PricingRule> rules = ruleRepo.findAll();
         StringBuilder appliedRules = new StringBuilder();
 
-        // 4️⃣ Apply active rules
-        List<PricingRule> rules = ruleRepo.findByActiveTrue();
-
         for (PricingRule rule : rules) {
-            if (inventory.getRemainingSeats() <= rule.getSeatThreshold()) {
-                finalPrice = finalPrice * rule.getMultiplier();
+            if (rule.isActive()) {
                 appliedRules.append(rule.getRuleCode()).append(",");
             }
         }
 
-        // 5️⃣ Save price record
+        // 5️⃣ Save Dynamic Price
         DynamicPriceRecord record = new DynamicPriceRecord();
         record.setEventId(eventId);
         record.setComputedPrice(finalPrice);
-        record.setAppliedRuleCodes(appliedRules.toString());
+        record.setAppliedRuleCodes(
+                appliedRules.length() > 0 ? appliedRules.toString() : "NO_RULE");
         record.setComputedAt(LocalDateTime.now());
 
         return dynamicRepo.save(record);

@@ -1,48 +1,47 @@
-package com.example.demo.service;
+package com.example.demo.service.impl;
 
 import com.example.demo.model.SeatInventoryRecord;
+import com.example.demo.repository.SeatInventoryRecordRepository;
+import com.example.demo.service.SeatInventoryService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class SeatInventoryServiceImpl implements SeatInventoryService {
 
-    private final List<SeatInventoryRecord> inventories = new ArrayList<>();
+    private final SeatInventoryRecordRepository repository;
+
+    public SeatInventoryServiceImpl(SeatInventoryRecordRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public SeatInventoryRecord createInventory(SeatInventoryRecord inventory) {
-        inventories.add(inventory);
-        return inventory;
+        return repository.save(inventory); // ✅ SAVE TO DB
     }
 
     @Override
     public SeatInventoryRecord updateRemainingSeats(Long eventId, Integer remainingSeats) {
-        Optional<SeatInventoryRecord> optionalInventory = inventories.stream()
-                .filter(inv -> inv.getEventId().equals(eventId))
-                .findFirst();
 
-        if (optionalInventory.isPresent()) {
-            SeatInventoryRecord inventory = optionalInventory.get();
-            inventory.setRemainingSeats(remainingSeats); // update the seats
-            return inventory;
+        SeatInventoryRecord inventory =
+                repository.findByEventId(eventId).orElse(null);
+
+        if (inventory != null) {
+            inventory.setRemainingSeats(remainingSeats);
+            return repository.save(inventory); // ✅ UPDATE DB
         }
 
-        return null; // or throw exception if inventory not found
+        return null;
     }
 
     @Override
     public SeatInventoryRecord getInventoryByEvent(Long eventId) {
-        return inventories.stream()
-                .filter(inv -> inv.getEventId().equals(eventId))
-                .findFirst()
-                .orElse(null);
+        return repository.findByEventId(eventId).orElse(null); // ✅ DB FETCH
     }
 
     @Override
     public List<SeatInventoryRecord> getAllInventories() {
-        return inventories;
+        return repository.findAll(); // ✅ DB FETCH
     }
 }

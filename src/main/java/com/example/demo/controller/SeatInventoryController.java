@@ -24,9 +24,9 @@ public class SeatInventoryController {
     }
 
     @PutMapping("/{eventId}/remaining")
-    public void updateRemainingSeats(@PathVariable Long eventId,
-                                     @RequestParam Integer remainingSeats) {
-        service.updateRemainingSeats(eventId, remainingSeats);
+    public SeatInventoryRecord updateRemainingSeats(@PathVariable Long eventId,
+                                                    @RequestParam Integer remainingSeats) {
+        return service.updateRemainingSeats(eventId, remainingSeats);
     }
 
     @GetMapping("/event/{eventId}")

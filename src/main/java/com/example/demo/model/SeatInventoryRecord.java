@@ -10,14 +10,42 @@ public class SeatInventoryRecord {
     private Long id;
 
     private Long eventId;
+
+    private Integer totalSeats;
+
     private Integer remainingSeats;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // ✅ REQUIRED getters
+    public Long getId() {
+        return id;
+    }
 
-    public Long getEventId() { return eventId; }
-    public void setEventId(Long eventId) { this.eventId = eventId; }
+    public Long getEventId() {
+        return eventId;
+    }
 
-    public Integer getRemainingSeats() { return remainingSeats; }
-    public void setRemainingSeats(Integer remainingSeats) { this.remainingSeats = remainingSeats; }
+    public Integer getTotalSeats() {
+        return totalSeats;
+    }
+
+    public Integer getRemainingSeats() {
+        return remainingSeats;
+    }
+
+    // setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public void setTotalSeats(Integer totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public void setRemainingSeats(Integer remainingSeats) {
+        this.remainingSeats = remainingSeats;
+    }
 }

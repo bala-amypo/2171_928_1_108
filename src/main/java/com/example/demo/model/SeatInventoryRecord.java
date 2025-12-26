@@ -1,41 +1,25 @@
 package com.example.demo.model;
 
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
 public class SeatInventoryRecord {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long eventId;
     private Integer totalSeats;
-    private Integer remainingSeats;
+    private LocalDateTime updatedAt;
 
-    public Long getId() {
-        return id;
-    }
+    public SeatInventoryRecord() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters and Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Integer getTotalSeats() { return totalSeats; }
+    public void setTotalSeats(Integer totalSeats) { this.totalSeats = totalSeats; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public Integer getTotalSeats() {
-        return totalSeats;
-    }
-
-    public void setTotalSeats(Integer totalSeats) {
-        this.totalSeats = totalSeats;
-    }
-
-    public Integer getRemainingSeats() {
-        return remainingSeats;
-    }
-
-    public void setRemainingSeats(Integer remainingSeats) {
-        this.remainingSeats = remainingSeats;
-    }
+    @PreUpdate
+    public void preUpdate() { this.updatedAt = LocalDateTime.now(); }
 }

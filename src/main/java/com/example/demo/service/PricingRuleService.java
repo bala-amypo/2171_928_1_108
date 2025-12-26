@@ -13,5 +13,7 @@ public interface PricingRuleService {
 
     List<PricingRule> getAllRules();
 
-    void deleteRule(Long id);   // ← THIS METHOD
+    List<PricingRule> getActiveRules();   // ✅ ADD THIS
+
+    void deleteRule(Long id);
 }

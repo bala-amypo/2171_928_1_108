@@ -11,44 +11,21 @@ public class PriceAdjustmentLog {
     private Long id;
 
     private Long eventId;
-    private Double oldPrice;
-    private Double newPrice;
-    private LocalDateTime changedAt;
+    private double oldPrice;
+    private double newPrice;
+    private LocalDateTime adjustedAt;
 
-    @PrePersist
-    public void prePersist() {
-        this.changedAt = LocalDateTime.now();
-    }
+    public Long getId() { return id; }
 
-    public Long getId() {
-        return id;
-    }
+    public Long getEventId() { return eventId; }
+    public void setEventId(Long eventId) { this.eventId = eventId; }
 
-    public Long getEventId() {
-        return eventId;
-    }
+    public double getOldPrice() { return oldPrice; }
+    public void setOldPrice(double oldPrice) { this.oldPrice = oldPrice; }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
+    public double getNewPrice() { return newPrice; }
+    public void setNewPrice(double newPrice) { this.newPrice = newPrice; }
 
-    public Double getOldPrice() {
-        return oldPrice;
-    }
-
-    public void setOldPrice(Double oldPrice) {
-        this.oldPrice = oldPrice;
-    }
-
-    public Double getNewPrice() {
-        return newPrice;
-    }
-
-    public void setNewPrice(Double newPrice) {
-        this.newPrice = newPrice;
-    }
-
-    public LocalDateTime getChangedAt() {
-        return changedAt;
-    }
+    public LocalDateTime getAdjustedAt() { return adjustedAt; }
+    public void setAdjustedAt(LocalDateTime adjustedAt) { this.adjustedAt = adjustedAt; }
 }

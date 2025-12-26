@@ -1,29 +1,28 @@
 package com.example.demo.dto;
 
-public class AuthRequest {
-    private String username;
-    private String password;
+public class AuthResponse {
+    private String token;
+    private String type = "Bearer";
 
-    public AuthRequest() {}
+    public AuthResponse() {}
 
-    public AuthRequest(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public AuthResponse(String token) {
+        this.token = token;
     }
 
-    public String getUsername() {
-        return username;
+    public String getToken() {
+        return token;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public String getPassword() {
-        return password;
+    public String getType() {
+        return type;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setType(String type) {
+        this.type = type;
     }
 }

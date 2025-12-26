@@ -5,6 +5,7 @@ import com.example.demo.repository.PricingRuleRepository;
 import com.example.demo.service.PricingRuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -12,6 +13,11 @@ public class PricingRuleServiceImpl implements PricingRuleService {
 
     @Autowired
     private PricingRuleRepository repository;
+
+    @Override
+    public PricingRule createRule(PricingRule rule) {
+        return repository.save(rule);
+    }
 
     @Override
     public PricingRule updateRule(Long id, PricingRule rule) {
@@ -26,7 +32,17 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
+    public PricingRule getRuleByCode(String ruleCode) {
+        return repository.findByRuleCode(ruleCode);
+    }
+
+    @Override
     public List<PricingRule> getActiveRules() {
         return repository.findAll().stream().filter(PricingRule::isActive).toList();
+    }
+
+    @Override
+    public List<PricingRule> getAllRules() {
+        return repository.findAll();
     }
 }

@@ -5,6 +5,7 @@ import com.example.demo.repository.SeatInventoryRecordRepository;
 import com.example.demo.service.SeatInventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +14,11 @@ public class SeatInventoryServiceImpl implements SeatInventoryService {
 
     @Autowired
     private SeatInventoryRecordRepository repository;
+
+    @Override
+    public SeatInventoryRecord createInventory(SeatInventoryRecord record) {
+        return repository.save(record);
+    }
 
     @Override
     public SeatInventoryRecord getInventoryByEvent(Long eventId) {

@@ -21,26 +21,12 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
+    public PricingRule getRuleByCode(String ruleCode) {
+        return repository.findByRuleCode(ruleCode);
+    }
+
+    @Override
     public List<PricingRule> getAllRules() {
         return repository.findAll();
-    }
-
-    @Override
-    public List<PricingRule> getActiveRules() {
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public PricingRule updateRule(Long id, PricingRule rule) {
-        PricingRule existing = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
-        existing.setRuleName(rule.getRuleName());
-        existing.setActive(rule.isActive());
-        return repository.save(existing);
-    }
-
-    @Override
-    public void deleteRule(Long id) {
-        repository.deleteById(id);
     }
 }

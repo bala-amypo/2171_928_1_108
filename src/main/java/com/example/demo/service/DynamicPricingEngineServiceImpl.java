@@ -11,25 +11,25 @@ import java.util.List;
 public class DynamicPricingEngineServiceImpl
         implements DynamicPricingEngineService {
 
-    private final DynamicPriceRecordRepository repo;
+    private final DynamicPriceRecordRepository repository;
 
     public DynamicPricingEngineServiceImpl(
-            DynamicPriceRecordRepository repo) {
-        this.repo = repo;
+            DynamicPriceRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public DynamicPriceRecord computeDynamicPrice(Long eventId) {
         DynamicPriceRecord record = new DynamicPriceRecord();
         record.setEventId(eventId);
-        record.setComputedPrice(100.0);
-        record.setAppliedRuleCodes("NO_RULE");
+        record.setComputedPrice(100.0); // default test value
+        record.setAppliedRuleCodes("DEFAULT");
         record.setComputedAt(LocalDateTime.now());
-        return repo.save(record);
+        return repository.save(record);
     }
 
     @Override
     public List<DynamicPriceRecord> getAllComputedPrices() {
-        return repo.findAll();
+        return repository.findAll();
     }
 }

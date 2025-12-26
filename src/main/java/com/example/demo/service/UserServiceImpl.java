@@ -22,8 +22,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.findById(id).orElse(null);
     }
 
     @Override
@@ -32,8 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByUsername(String username) {
-        return repository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public void deleteUser(Long id) {
+        repository.deleteById(id);
     }
 }

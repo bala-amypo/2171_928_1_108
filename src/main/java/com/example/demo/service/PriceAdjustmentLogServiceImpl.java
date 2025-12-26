@@ -18,12 +18,17 @@ public class PriceAdjustmentLogServiceImpl
     }
 
     @Override
-    public PriceAdjustmentLog saveLog(PriceAdjustmentLog log) {
+    public PriceAdjustmentLog logAdjustment(PriceAdjustmentLog log) {
         return repository.save(log);
     }
 
     @Override
-    public List<PriceAdjustmentLog> getLogsByEventId(Long eventId) {
+    public List<PriceAdjustmentLog> getAdjustmentsByEvent(Long eventId) {
         return repository.findByEventId(eventId);
+    }
+
+    @Override
+    public List<PriceAdjustmentLog> getAllAdjustments() {
+        return repository.findAll();
     }
 }

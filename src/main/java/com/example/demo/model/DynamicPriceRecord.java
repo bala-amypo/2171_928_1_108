@@ -1,26 +1,48 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class DynamicPriceRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double computedPrice;
-    private String appliedRuleCodes;
-    private LocalDateTime computedAt;
+    private Long eventId;
+    private Double price;
 
     public DynamicPriceRecord() {}
 
-    public double getComputedPrice() { return computedPrice; }
-    public void setComputedPrice(double computedPrice) { this.computedPrice = computedPrice; }
-    public String getAppliedRuleCodes() { return appliedRuleCodes; }
-    public void setAppliedRuleCodes(String appliedRuleCodes) { this.appliedRuleCodes = appliedRuleCodes; }
-    public LocalDateTime getComputedAt() { return computedAt; }
+    public DynamicPriceRecord(Long eventId, Double price) {
+        this.eventId = eventId;
+        this.price = price;
+    }
 
-    @PrePersist
-    public void prePersist() { this.computedAt = LocalDateTime.now(); }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(Long eventId) {
+        this.eventId = eventId;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 }

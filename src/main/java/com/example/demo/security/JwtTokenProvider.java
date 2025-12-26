@@ -11,18 +11,13 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    private final String jwtSecret;
-    private final long jwtExpirationInMs;
+    @Value("${jwt.secret}")
+    private String jwtSecret;
 
-    // Inject values from application.properties
-    public JwtTokenProvider(
-            @Value("${jwt.secret}") String jwtSecret,
-            @Value("${jwt.expiration}") long jwtExpirationInMs) {
-        this.jwtSecret = jwtSecret;
-        this.jwtExpirationInMs = jwtExpirationInMs;
-    }
+    @Value("${jwt.expiration}")
+    private long jwtExpirationInMs;
 
-    // Generate token
+    // Generate JWT token
     public String generateToken(String username) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
@@ -35,21 +30,23 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // Get username from token
+    // Get username from JWT token
     public String getUsernameFromJWT(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)
                 .getBody();
+
         return claims.getSubject();
     }
 
-    // Validate token
-    public boolean validateToken(String authToken) {
+    // Validate JWT token
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token);
             return true;
         } catch (Exception ex) {
+            // log invalid token
             return false;
         }
     }

@@ -1,41 +1,18 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.SeatInventoryRecord;
-import com.example.demo.service.SeatInventoryService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/inventory")
-@Tag(name = "Seat Inventory")
+@RequestMapping("/inventory")
 public class SeatInventoryController {
 
-    private final SeatInventoryService service;
-
-    public SeatInventoryController(SeatInventoryService service) {
-        this.service = service;
-    }
-
-    @PostMapping
-    public SeatInventoryRecord createInventory(@RequestBody SeatInventoryRecord inventory) {
-        return service.createInventory(inventory);
-    }
-
-    @PutMapping("/{eventId}/remaining")
-    public SeatInventoryRecord updateRemainingSeats(@PathVariable Long eventId,
-                                                    @RequestParam Integer remainingSeats) {
-        return service.updateRemainingSeats(eventId, remainingSeats);
-    }
-
-    @GetMapping("/event/{eventId}")
-    public SeatInventoryRecord getByEvent(@PathVariable Long eventId) {
-        return service.getInventoryByEvent(eventId);
-    }
-
-    @GetMapping
-    public List<SeatInventoryRecord> getAll() {
-        return service.getAllInventories();
+    @PutMapping("/{id}")
+    public SeatInventoryRecord update(@PathVariable Long id,
+                                      @RequestParam Integer seats) {
+        SeatInventoryRecord record = new SeatInventoryRecord();
+        record.setId(id);
+        record.setTotalSeats(seats);
+        return record;
     }
 }

@@ -1,34 +1,28 @@
 package com.example.demo.dto;
 
-public class SeatInventoryDTO {
+public class AuthResponse {
+    private String token;
+    private String type = "Bearer";
 
-    private Long eventId;      // Primary key matches model
-    private Integer totalSeats;
-    private Integer remainingSeats;
+    public AuthResponse() {}
 
-    public SeatInventoryDTO() {}
-
-    public Long getEventId() {
-        return eventId;
+    public AuthResponse(String token) {
+        this.token = token;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
+    public String getToken() {
+        return token;
     }
 
-    public Integer getTotalSeats() {
-        return totalSeats;
+    public void setToken(String token) {
+        this.token = token;
     }
 
-    public void setTotalSeats(Integer totalSeats) {
-        this.totalSeats = totalSeats;
+    public String getType() {
+        return type;
     }
 
-    public Integer getRemainingSeats() {
-        return remainingSeats;
-    }
-
-    public void setRemainingSeats(Integer remainingSeats) {
-        this.remainingSeats = remainingSeats;
+    public void setType(String type) {
+        this.type = type;
     }
 }

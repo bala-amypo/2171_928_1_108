@@ -1,46 +1,35 @@
 package com.example.demo.service;
 
-import com.example.demo.model.EventRecord;
-import com.example.demo.repository.EventRecordRepository;
+import com.example.demo.model.DynamicPriceRecord;
+import com.example.demo.repository.DynamicPriceRecordRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class EventRecordServiceImpl implements EventRecordService {
+public class DynamicPricingEngineServiceImpl
+        implements DynamicPricingEngineService {
 
-    private final EventRecordRepository repository;
+    private final DynamicPriceRecordRepository repo;
 
-    public EventRecordServiceImpl(EventRecordRepository repository) {
-        this.repository = repository;
+    public DynamicPricingEngineServiceImpl(
+            DynamicPriceRecordRepository repo) {
+        this.repo = repo;
     }
 
     @Override
-    public EventRecord createEvent(EventRecord event) {
-        return repository.save(event);
+    public DynamicPriceRecord computeDynamicPrice(Long eventId) {
+        DynamicPriceRecord record = new DynamicPriceRecord();
+        record.setEventId(eventId);
+        record.setComputedPrice(100.0);
+        record.setAppliedRuleCodes("NO_RULE");
+        record.setComputedAt(LocalDateTime.now());
+        return repo.save(record);
     }
 
     @Override
-    public EventRecord getEventById(Long id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Event not found"));
-    }
-
-    @Override
-    public List<EventRecord> getAllEvents() {
-        return repository.findAll();
-    }
-
-    @Override
-    public EventRecord updateEvent(Long id, EventRecord event) {
-        EventRecord existing = getEventById(id);
-        existing.setEventName(event.getEventName());
-        existing.setActive(event.isActive());
-        return repository.save(existing);
-    }
-
-    @Override
-    public void deleteEvent(Long id) {
-        repository.deleteById(id);
+    public List<DynamicPriceRecord> getAllComputedPrices() {
+        return repo.findAll();
     }
 }

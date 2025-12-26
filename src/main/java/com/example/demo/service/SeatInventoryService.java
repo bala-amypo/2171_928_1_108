@@ -1,18 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.EventRecord;
+import com.example.demo.model.SeatInventoryRecord;
 
-import java.util.List;
-
-public interface EventRecordService {
-
-    EventRecord createEvent(EventRecord event);
-
-    EventRecord getEventById(Long id);
-
-    List<EventRecord> getAllEvents();
-
-    EventRecord updateEvent(Long id, EventRecord event);
-
-    void deleteEvent(Long id);
+public interface SeatInventoryService {
+    SeatInventoryRecord createInventory(SeatInventoryRecord record);
+    SeatInventoryRecord getByEventId(Long eventId);
+    SeatInventoryRecord updateRemainingSeats(Long eventId, Integer seats);
 }

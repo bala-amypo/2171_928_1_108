@@ -1,62 +1,69 @@
 package com.example.demo.security;
 
+import io.jsonwebtoken.*;
 import org.springframework.security.core.Authentication;
 
-import java.util.Base64;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class JwtTokenProvider {
 
     private final String secretKey;
-    private final long validityInMs;
-    private final boolean enabled;
+    private final long validityInMilliseconds;
+    private final boolean encodeSecret;
 
-    public JwtTokenProvider(String secretKey, long validityInMs, boolean enabled) {
+    public JwtTokenProvider(String secretKey, long validityInMilliseconds, boolean encodeSecret) {
         this.secretKey = secretKey;
-        this.validityInMs = validityInMs;
-        this.enabled = enabled;
+        this.validityInMilliseconds = validityInMilliseconds;
+        this.encodeSecret = encodeSecret;
     }
 
     public String generateToken(Authentication authentication, Long userId, String role) {
-        String raw =
-                authentication.getName() + "|" +
-                userId + "|" +
-                role + "|" +
-                System.currentTimeMillis();
+        String email = authentication.getName();
 
-        return Base64.getEncoder().encodeToString(raw.getBytes());
+        Claims claims = Jwts.claims().setSubject(email);
+        claims.put("userId", userId);
+        claims.put("role", role);
+        claims.put("email", email);
+
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMilliseconds);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
+                .compact();
     }
 
     public String getUsernameFromToken(String token) {
+        return getAllClaims(token).get("email", String.class);
+    }
+
+    public Map<String, Object> getAllClaims(String token) {
         try {
-            String decoded = new String(Base64.getDecoder().decode(token));
-            return decoded.split("\\|")[0];
-        } catch (Exception e) {
-            return null;
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey.getBytes())
+                    .parseClaimsJws(token)
+                    .getBody();
+            Map<String, Object> map = new HashMap<>();
+            map.put("userId", claims.get("userId"));
+            map.put("role", claims.get("role"));
+            map.put("email", claims.get("email"));
+            return map;
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new RuntimeException("Invalid JWT token");
         }
     }
 
     public boolean validateToken(String token) {
         try {
-            Base64.getDecoder().decode(token);
+            Jwts.parser().setSigningKey(secretKey.getBytes()).parseClaimsJws(token);
             return true;
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
-    }
-
-    public Map<String, Object> getAllClaims(String token) {
-        Map<String, Object> claims = new HashMap<>();
-        try {
-            String decoded = new String(Base64.getDecoder().decode(token));
-            String[] parts = decoded.split("\\|");
-
-            claims.put("email", parts[0]);
-            claims.put("userId", Long.parseLong(parts[1]));
-            claims.put("role", parts[2]);
-        } catch (Exception ignored) {
-        }
-        return claims;
     }
 }

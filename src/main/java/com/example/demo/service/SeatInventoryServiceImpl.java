@@ -2,23 +2,22 @@ package com.example.demo.service;
 
 import com.example.demo.model.SeatInventoryRecord;
 import com.example.demo.repository.SeatInventoryRecordRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SeatInventoryServiceImpl implements SeatInventoryService {
 
-    private final SeatInventoryRecordRepository repository;
-
-    public SeatInventoryServiceImpl(SeatInventoryRecordRepository repository) {
-        this.repository = repository;
-    }
+    @Autowired
+    private SeatInventoryRecordRepository repository;
 
     @Override
     public SeatInventoryRecord getInventoryByEvent(Long eventId) {
-        List<SeatInventoryRecord> list = repository.findByEventId(eventId);
-        return list.isEmpty() ? null : list.get(0);
+        Optional<SeatInventoryRecord> record = repository.findById(eventId);
+        return record.orElse(null);
     }
 
     @Override
@@ -27,10 +26,11 @@ public class SeatInventoryServiceImpl implements SeatInventoryService {
     }
 
     @Override
-    public void setRemainingSeats(Long id, Integer remaining) {
-        SeatInventoryRecord record = repository.findById(id).orElse(null);
-        if (record != null) {
-            record.setRemainingSeats(remaining);
+    public void updateRemainingSeats(Long eventId, Integer seats) {
+        Optional<SeatInventoryRecord> recordOpt = repository.findById(eventId);
+        if (recordOpt.isPresent()) {
+            SeatInventoryRecord record = recordOpt.get();
+            record.setRemainingSeats(seats);
             repository.save(record);
         }
     }

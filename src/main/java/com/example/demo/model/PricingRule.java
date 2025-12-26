@@ -2,24 +2,31 @@ package com.example.demo.model;
 
 public class PricingRule {
 
-    private String ruleCode;
-    private Double priceMultiplier;
-    private Integer minRemainingSeats;
-    private Integer maxRemainingSeats;
-    private Integer daysBeforeEvent;
+    private Long id;
+    private boolean active;
+    private double multiplier;
 
-    public String getRuleCode() { return ruleCode; }
-    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
+    public Long getId() {
+        return id;
+    }
 
-    public Double getPriceMultiplier() { return priceMultiplier; }
-    public void setPriceMultiplier(Double priceMultiplier) { this.priceMultiplier = priceMultiplier; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Integer getMinRemainingSeats() { return minRemainingSeats; }
-    public void setMinRemainingSeats(Integer minRemainingSeats) { this.minRemainingSeats = minRemainingSeats; }
+    public boolean isActive() {
+        return active;
+    }
 
-    public Integer getMaxRemainingSeats() { return maxRemainingSeats; }
-    public void setMaxRemainingSeats(Integer maxRemainingSeats) { this.maxRemainingSeats = maxRemainingSeats; }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-    public Integer getDaysBeforeEvent() { return daysBeforeEvent; }
-    public void setDaysBeforeEvent(Integer daysBeforeEvent) { this.daysBeforeEvent = daysBeforeEvent; }
+    public double getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(double multiplier) {
+        this.multiplier = multiplier;
+    }
 }

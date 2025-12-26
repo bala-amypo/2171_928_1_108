@@ -1,19 +1,32 @@
 package com.example.demo.model;
 
-import java.time.LocalDate;
-
 public class EventRecord {
 
     private Long id;
-    private Double basePrice;
-    private LocalDate eventDate;
+    private String name;
+    private boolean active;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public Double getBasePrice() { return basePrice; }
-    public void setBasePrice(Double basePrice) { this.basePrice = basePrice; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public LocalDate getEventDate() { return eventDate; }
-    public void setEventDate(LocalDate eventDate) { this.eventDate = eventDate; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

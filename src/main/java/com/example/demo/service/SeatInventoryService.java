@@ -1,6 +1,10 @@
 package com.example.demo.service;
 
-public interface SeatInventoryService {
+import com.example.demo.model.SeatInventoryRecord;
 
-    void updateRemainingSeats(Long eventId, Integer remainingSeats);
+import java.util.Optional;
+
+public interface SeatInventoryService {
+    void updateRemainingSeats(Long eventId, Integer seatsSold);
+    Optional<SeatInventoryRecord> getSeatInventoryByEventId(Long eventId);
 }

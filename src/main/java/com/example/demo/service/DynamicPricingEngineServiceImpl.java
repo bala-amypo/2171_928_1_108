@@ -1,41 +1,30 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.DynamicPriceRecord;
-import com.example.demo.repository.*;
+import com.example.demo.repository.DynamicPriceRecordRepository;
 import com.example.demo.service.DynamicPricingEngineService;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineService {
 
-    private final EventRecordRepository eventRepo;
-    private final SeatInventoryRecordRepository seatInventoryRepo;
-    private final PricingRuleRepository pricingRuleRepo;
     private final DynamicPriceRecordRepository dynamicPriceRepo;
-    private final PriceAdjustmentLogRepository priceLogRepo;
 
-    public DynamicPricingEngineServiceImpl(EventRecordRepository eventRepo,
-                                           SeatInventoryRecordRepository seatInventoryRepo,
-                                           PricingRuleRepository pricingRuleRepo,
-                                           DynamicPriceRecordRepository dynamicPriceRepo,
-                                           PriceAdjustmentLogRepository priceLogRepo) {
-        this.eventRepo = eventRepo;
-        this.seatInventoryRepo = seatInventoryRepo;
-        this.pricingRuleRepo = pricingRuleRepo;
+    public DynamicPricingEngineServiceImpl(DynamicPriceRecordRepository dynamicPriceRepo) {
         this.dynamicPriceRepo = dynamicPriceRepo;
-        this.priceLogRepo = priceLogRepo;
     }
 
     @Override
-    public List<DynamicPriceRecord> getPriceHistory(Long eventId) {
-        // Ensure your repository has this method: List<DynamicPriceRecord> findByEventId(Long eventId);
-        return dynamicPriceRepo.findByEventId(eventId);
-    }
-
-    @Override
-    public List<DynamicPriceRecord> getAllDynamicPrices() {
-        return dynamicPriceRepo.findAll();
+    public Map<Long, Double> getAllDynamicPrices() {
+        List<DynamicPriceRecord> records = dynamicPriceRepo.findAll();
+        Map<Long, Double> result = new HashMap<>();
+        for (DynamicPriceRecord record : records) {
+            result.put(record.getEventId(), record.getPrice());
+        }
+        return result;
     }
 }

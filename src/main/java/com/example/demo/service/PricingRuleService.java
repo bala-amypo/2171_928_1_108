@@ -1,7 +1,12 @@
 package com.example.demo.service;
 
 import com.example.demo.model.PricingRule;
+import java.util.List;
 
 public interface PricingRuleService {
-    PricingRule getRuleByCode(String code);
+
+    PricingRule createRule(PricingRule rule);
+    PricingRule updateRule(Long id, PricingRule rule);
+    List<PricingRule> getActiveRules();
+    List<PricingRule> getAllRules();
 }

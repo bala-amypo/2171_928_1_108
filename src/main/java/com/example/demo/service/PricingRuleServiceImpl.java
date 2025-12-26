@@ -1,20 +1,32 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.PricingRule;
-import com.example.demo.service.PricingRuleService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PricingRuleServiceImpl implements PricingRuleService {
 
     @Override
-    public PricingRule getRuleByCode(String code) {
-        PricingRule rule = new PricingRule();
-        rule.setRuleCode(code);
-        rule.setPriceMultiplier(1.0);
-        rule.setMinRemainingSeats(0);
-        rule.setMaxRemainingSeats(100);
-        rule.setDaysBeforeEvent(0);
+    public PricingRule createRule(PricingRule rule) {
         return rule;
+    }
+
+    @Override
+    public PricingRule updateRule(Long id, PricingRule rule) {
+        rule.setId(id);
+        return rule;
+    }
+
+    @Override
+    public List<PricingRule> getActiveRules() {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<PricingRule> getAllRules() {
+        return new ArrayList<>();
     }
 }

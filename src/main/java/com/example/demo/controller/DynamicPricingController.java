@@ -1,13 +1,12 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.DynamicPriceRecord;
 import com.example.demo.service.DynamicPricingEngineService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/dynamic-pricing")
+@RequestMapping("/pricing")
 public class DynamicPricingController {
 
     private final DynamicPricingEngineService service;
@@ -16,13 +15,13 @@ public class DynamicPricingController {
         this.service = service;
     }
 
-    @PostMapping("/compute/{eventId}")
-    public DynamicPriceRecord compute(@PathVariable Long eventId) {
+    @GetMapping("/{eventId}")
+    public Double price(@PathVariable Long eventId) {
         return service.computeDynamicPrice(eventId);
     }
 
     @GetMapping
-    public List<DynamicPriceRecord> all() {
-        return service.getAllComputedPrices();
+    public Map<Long, Double> allPrices() {
+        return service.getAllDynamicPrices();
     }
 }

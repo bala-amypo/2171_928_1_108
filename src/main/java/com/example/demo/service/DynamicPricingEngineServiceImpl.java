@@ -1,7 +1,7 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
-import com.example.demo.service.DynamicPricingEngineService;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,7 +9,12 @@ import java.util.Map;
 public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineService {
 
     @Override
-    public Map<Long, Double> getAllComputedPrices() {
+    public Double computeDynamicPrice(Long eventId) {
+        return 100.0;
+    }
+
+    @Override
+    public Map<Long, Double> getAllDynamicPrices() {
         return new HashMap<>();
     }
 }

@@ -1,5 +1,9 @@
 package com.example.demo.service;
 
+import com.example.demo.model.User;
+
 public interface UserService {
-    void deleteUser(Long userId);
+
+    User createUser(User user);
+    User getUserById(Long id);
 }

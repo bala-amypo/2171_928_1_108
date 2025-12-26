@@ -4,6 +4,8 @@ import com.example.demo.model.SeatInventoryRecord;
 import com.example.demo.repository.SeatInventoryRecordRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SeatInventoryServiceImpl implements SeatInventoryService {
 
@@ -14,22 +16,22 @@ public class SeatInventoryServiceImpl implements SeatInventoryService {
     }
 
     @Override
-    public SeatInventoryRecord createInventory(SeatInventoryRecord record) {
-        return repository.save(record);
+    public SeatInventoryRecord getInventoryByEvent(Long eventId) {
+        List<SeatInventoryRecord> list = repository.findByEventId(eventId);
+        return list.isEmpty() ? null : list.get(0);
     }
 
     @Override
-    public SeatInventoryRecord getByEventId(Long eventId) {
-        return repository.findByEventId(eventId);
+    public List<SeatInventoryRecord> getAllInventories() {
+        return repository.findAll();
     }
 
     @Override
-    public SeatInventoryRecord updateRemainingSeats(Long eventId, Integer seats) {
-        SeatInventoryRecord record = repository.findByEventId(eventId);
+    public void setRemainingSeats(Long id, Integer remaining) {
+        SeatInventoryRecord record = repository.findById(id).orElse(null);
         if (record != null) {
-            record.setRemainingSeats(seats);
-            return repository.save(record);
+            record.setRemainingSeats(remaining);
+            repository.save(record);
         }
-        return null;
     }
 }

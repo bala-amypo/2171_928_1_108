@@ -4,7 +4,10 @@ public class PricingRule {
 
     private Long id;
     private boolean active;
-    private double multiplier;
+    private Double priceMultiplier;
+    private Integer minRemainingSeats;
+    private Integer maxRemainingSeats;
+    private Integer daysBeforeEvent;
 
     public Long getId() {
         return id;
@@ -22,11 +25,35 @@ public class PricingRule {
         this.active = active;
     }
 
-    public double getMultiplier() {
-        return multiplier;
+    public Double getPriceMultiplier() {
+        return priceMultiplier;
     }
 
-    public void setMultiplier(double multiplier) {
-        this.multiplier = multiplier;
+    public void setPriceMultiplier(Double priceMultiplier) {
+        this.priceMultiplier = priceMultiplier;
+    }
+
+    public Integer getMinRemainingSeats() {
+        return minRemainingSeats;
+    }
+
+    public void setMinRemainingSeats(Integer minRemainingSeats) {
+        this.minRemainingSeats = minRemainingSeats;
+    }
+
+    public Integer getMaxRemainingSeats() {
+        return maxRemainingSeats;
+    }
+
+    public void setMaxRemainingSeats(Integer maxRemainingSeats) {
+        this.maxRemainingSeats = maxRemainingSeats;
+    }
+
+    public Integer getDaysBeforeEvent() {
+        return daysBeforeEvent;
+    }
+
+    public void setDaysBeforeEvent(Integer daysBeforeEvent) {
+        this.daysBeforeEvent = daysBeforeEvent;
     }
 }

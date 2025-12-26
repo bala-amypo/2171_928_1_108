@@ -2,37 +2,23 @@ package com.example.demo.controller;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class UserController {
 
-    private final UserService service;
-
-    public UserController(UserService service) {
-        this.service = service;
-    }
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/create")
     public User createUser(@RequestBody User user) {
-        return service.createUser(user);
+        return userService.createUser(user); // service must return User
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return service.getUserById(id);
-    }
-
-    @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return service.getAllUsers();
-    }
-
-    @DeleteMapping("/{id}")
-    public User deleteUser(@PathVariable Long id) {
-        return service.deleteUser(id);
+    public User getUser(@PathVariable Long id) {
+        return userService.getUserById(id); // returns User
     }
 }

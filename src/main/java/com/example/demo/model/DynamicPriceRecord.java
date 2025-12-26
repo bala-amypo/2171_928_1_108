@@ -11,9 +11,14 @@ public class DynamicPriceRecord {
     private Long id;
 
     private Long eventId;
-    private double computedPrice;
+    private Double computedPrice;
     private String appliedRuleCodes;
     private LocalDateTime computedAt;
+
+    @PrePersist
+    public void prePersist() {
+        this.computedAt = LocalDateTime.now();
+    }
 
     public Long getId() {
         return id;
@@ -27,11 +32,11 @@ public class DynamicPriceRecord {
         this.eventId = eventId;
     }
 
-    public double getComputedPrice() {
+    public Double getComputedPrice() {
         return computedPrice;
     }
 
-    public void setComputedPrice(double computedPrice) {
+    public void setComputedPrice(Double computedPrice) {
         this.computedPrice = computedPrice;
     }
 
@@ -45,9 +50,5 @@ public class DynamicPriceRecord {
 
     public LocalDateTime getComputedAt() {
         return computedAt;
-    }
-
-    public void setComputedAt(LocalDateTime computedAt) {
-        this.computedAt = computedAt;
     }
 }

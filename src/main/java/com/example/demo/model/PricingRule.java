@@ -6,17 +6,38 @@ import jakarta.persistence.*;
 public class PricingRule {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
     private String ruleCode;
-
-    private int minRemainingSeats;
-    private int maxRemainingSeats;
-    private int daysBeforeEvent;
-    private double priceMultiplier;
+    private String ruleName;
     private boolean active;
 
-    // getters & setters
+    public Long getId() {
+        return id;
+    }
+
+    public String getRuleCode() {
+        return ruleCode;
+    }
+
+    public void setRuleCode(String ruleCode) {
+        this.ruleCode = ruleCode;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

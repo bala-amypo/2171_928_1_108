@@ -1,13 +1,9 @@
-package com.example.demo.repository;
+package com.example.demo.service;
 
-import com.example.demo.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.model.DynamicPriceRecord;
+import java.util.List;
 
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    Optional<User> findByUsername(String username);
-
-    boolean existsByUsername(String username);
+public interface DynamicPricingEngineService {
+    DynamicPriceRecord computeDynamicPrice(Long eventId);
+    List<DynamicPriceRecord> getAllComputedPrices();
 }

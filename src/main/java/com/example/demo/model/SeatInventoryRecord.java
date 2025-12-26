@@ -1,11 +1,22 @@
-package com.example.demo.service;
+package com.example.demo.model;
 
-import com.example.demo.model.SeatInventoryRecord;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-import java.util.List;
+@Entity
+public class SeatInventoryRecord {
 
-public interface SeatInventoryService {
-    SeatInventoryRecord getInventoryByEvent(Long eventId);
-    List<SeatInventoryRecord> getAllInventories();
-    void updateRemainingSeats(Long eventId, Integer seats);
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long eventId;
+    private Integer remainingSeats;
+
+    // Getters and Setters
+    public Long getEventId() { return eventId; }
+    public void setEventId(Long eventId) { this.eventId = eventId; }
+
+    public Integer getRemainingSeats() { return remainingSeats; }
+    public void setRemainingSeats(Integer remainingSeats) { this.remainingSeats = remainingSeats; }
 }

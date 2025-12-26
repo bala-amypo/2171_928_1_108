@@ -1,51 +1,13 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
-
-@Entity
 public class SeatInventoryRecord {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private Long eventId;
-
     private Integer totalSeats;
 
-    private Integer remainingSeats;
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // ✅ REQUIRED getters
-    public Long getId() {
-        return id;
-    }
-
-    public Long getEventId() {
-        return eventId;
-    }
-
-    public Integer getTotalSeats() {
-        return totalSeats;
-    }
-
-    public Integer getRemainingSeats() {
-        return remainingSeats;
-    }
-
-    // setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
-    public void setTotalSeats(Integer totalSeats) {
-        this.totalSeats = totalSeats;
-    }
-
-    public void setRemainingSeats(Integer remainingSeats) {
-        this.remainingSeats = remainingSeats;
-    }
+    public Integer getTotalSeats() { return totalSeats; }
+    public void setTotalSeats(Integer totalSeats) { this.totalSeats = totalSeats; }
 }

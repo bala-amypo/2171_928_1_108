@@ -1,35 +1,47 @@
 package com.example.demo.service;
 
-import com.example.demo.model.DynamicPriceRecord;
-import com.example.demo.repository.DynamicPriceRecordRepository;
+import com.example.demo.model.EventRecord;
+import com.example.demo.repository.EventRecordRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
-public class DynamicPricingEngineServiceImpl
-        implements DynamicPricingEngineService {
+public class EventRecordServiceImpl implements EventRecordService {
 
-    private final DynamicPriceRecordRepository repo;
+    private final EventRecordRepository repository;
 
-    public DynamicPricingEngineServiceImpl(
-            DynamicPriceRecordRepository repo) {
-        this.repo = repo;
+    public EventRecordServiceImpl(EventRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public DynamicPriceRecord computeDynamicPrice(Long eventId) {
-        DynamicPriceRecord record = new DynamicPriceRecord();
-        record.setEventId(eventId);
-        record.setComputedPrice(100.0);
-        record.setAppliedRuleCodes("NO_RULE");
-        record.setComputedAt(LocalDateTime.now());
-        return repo.save(record);
+    public EventRecord createEvent(EventRecord event) {
+        return repository.save(event);
     }
 
     @Override
-    public List<DynamicPriceRecord> getAllComputedPrices() {
-        return repo.findAll();
+    public EventRecord getEventById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @Override
+    public EventRecord getEventByCode(String eventCode) {
+        return repository.findByEventCode(eventCode);
+    }
+
+    @Override
+    public List<EventRecord> getAllEvents() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void updateEventStatus(Long id, boolean active) {
+        EventRecord event = repository.findById(id).orElse(null);
+        if (event != null) {
+            event.setActive(active);
+            repository.save(event);
+        }
     }
 }
+`

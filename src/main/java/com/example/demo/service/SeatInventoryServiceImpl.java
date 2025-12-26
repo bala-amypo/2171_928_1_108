@@ -1,46 +1,35 @@
 package com.example.demo.service;
 
-import com.example.demo.model.EventRecord;
-import com.example.demo.repository.EventRecordRepository;
+import com.example.demo.model.SeatInventoryRecord;
+import com.example.demo.repository.SeatInventoryRecordRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class EventRecordServiceImpl implements EventRecordService {
+public class SeatInventoryServiceImpl implements SeatInventoryService {
 
-    private final EventRecordRepository repository;
+    private final SeatInventoryRecordRepository repository;
 
-    public EventRecordServiceImpl(EventRecordRepository repository) {
+    public SeatInventoryServiceImpl(SeatInventoryRecordRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public EventRecord createEvent(EventRecord event) {
-        return repository.save(event);
+    public SeatInventoryRecord createInventory(SeatInventoryRecord record) {
+        return repository.save(record);
     }
 
     @Override
-    public EventRecord getEventById(Long id) {
-        return repository.findById(id).orElse(null);
+    public SeatInventoryRecord getByEventId(Long eventId) {
+        return repository.findByEventId(eventId);
     }
 
     @Override
-    public EventRecord getEventByCode(String eventCode) {
-        return repository.findByEventCode(eventCode);
-    }
-
-    @Override
-    public List<EventRecord> getAllEvents() {
-        return repository.findAll();
-    }
-
-    @Override
-    public void updateEventStatus(Long id, boolean active) {
-        EventRecord event = repository.findById(id).orElse(null);
-        if (event != null) {
-            event.setActive(active);
-            repository.save(event);
+    public SeatInventoryRecord updateRemainingSeats(Long eventId, Integer seats) {
+        SeatInventoryRecord record = repository.findByEventId(eventId);
+        if (record != null) {
+            record.setRemainingSeats(seats);
+            return repository.save(record);
         }
+        return null;
     }
 }

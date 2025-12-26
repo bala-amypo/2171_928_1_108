@@ -2,20 +2,11 @@ package com.example.demo.dto;
 
 public class SeatInventoryDTO {
 
-    private Long id;
-    private Long eventId;
+    private Long eventId;      // Primary key matches model
     private Integer totalSeats;
     private Integer remainingSeats;
 
     public SeatInventoryDTO() {}
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getEventId() {
         return eventId;

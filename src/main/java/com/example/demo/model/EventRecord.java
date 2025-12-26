@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class EventRecord {
@@ -11,7 +12,17 @@ public class EventRecord {
 
     private String eventCode;
     private String eventName;
-    private boolean active;
+    private String venue;
+    private LocalDate eventDate;
+    private Double basePrice;
+    private Boolean active;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.active == null) {
+            this.active = true;
+        }
+    }
 
     public Long getId() {
         return id;
@@ -33,11 +44,35 @@ public class EventRecord {
         this.eventName = eventName;
     }
 
-    public boolean isActive() {
+    public String getVenue() {
+        return venue;
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public LocalDate getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(LocalDate eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public Double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(Double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 }

@@ -37,7 +37,6 @@ public class DynamicPricingEngineServiceImpl
     @Override
     public DynamicPriceRecord computeDynamicPrice(Long eventId) {
 
-        // 1️⃣ Validate Event
         EventRecord event = eventRepo.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 
@@ -45,24 +44,18 @@ public class DynamicPricingEngineServiceImpl
             throw new RuntimeException("Event is inactive");
         }
 
-        // 2️⃣ Validate Inventory
         SeatInventoryRecord inventory = inventoryRepo.findByEventId(eventId)
                 .orElseThrow(() -> new RuntimeException("Inventory not found"));
 
-        // 3️⃣ Base price (static for now)
         double finalPrice = 100.0;
 
-        // 4️⃣ Apply active pricing rules
-        List<PricingRule> rules = ruleRepo.findAll();
+        List<PricingRule> rules = ruleRepo.findByActiveTrue();
         StringBuilder appliedRules = new StringBuilder();
 
         for (PricingRule rule : rules) {
-            if (rule.isActive()) {
-                appliedRules.append(rule.getRuleCode()).append(",");
-            }
+            appliedRules.append(rule.getRuleCode()).append(",");
         }
 
-        // 5️⃣ Save result
         DynamicPriceRecord record = new DynamicPriceRecord();
         record.setEventId(eventId);
         record.setComputedPrice(finalPrice);

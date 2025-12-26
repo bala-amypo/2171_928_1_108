@@ -1,17 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.model.EventRecord;
+import com.example.demo.model.DynamicPriceRecord;
+
 import java.util.List;
 
-public interface EventRecordService {
+public interface DynamicPricingEngineService {
 
-    EventRecord createEvent(EventRecord event);
+    DynamicPriceRecord computeDynamicPrice(Long eventId);
 
-    EventRecord getEventById(Long id);
+    DynamicPriceRecord getLatestPrice(Long eventId);
 
-    EventRecord getEventByCode(String eventCode);
+    List<DynamicPriceRecord> getPriceHistory(Long eventId);
 
-    List<EventRecord> getAllEvents();
-
-    void updateEventStatus(Long id, boolean active);
+    List<DynamicPriceRecord> getAllComputedPrices();
 }

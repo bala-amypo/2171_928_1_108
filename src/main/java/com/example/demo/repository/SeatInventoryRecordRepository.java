@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface SeatInventoryRecordRepository extends JpaRepository<SeatInventoryRecord, Long> {
+
+    // Returns a list of seat inventory records for a given event
     List<SeatInventoryRecord> findByEventId(Long eventId);
 }

@@ -30,13 +30,12 @@ public class DynamicPricingEngineServiceImpl implements DynamicPricingEngineServ
 
     @Override
     public List<DynamicPriceRecord> getPriceHistory(Long eventId) {
+        // Ensure your repository has this method: List<DynamicPriceRecord> findByEventId(Long eventId);
         return dynamicPriceRepo.findByEventId(eventId);
     }
 
     @Override
-    public List<DynamicPriceRecord> getAllComputedPrices() {
+    public List<DynamicPriceRecord> getAllDynamicPrices() {
         return dynamicPriceRepo.findAll();
     }
-
-    // Add other methods as per interface
 }

@@ -10,14 +10,19 @@ import java.util.List;
 @Service
 public class PriceAdjustmentLogServiceImpl implements PriceAdjustmentLogService {
 
-    private final PriceAdjustmentLogRepository logRepository;
+    private final PriceAdjustmentLogRepository logRepo;
 
-    public PriceAdjustmentLogServiceImpl(PriceAdjustmentLogRepository logRepository) {
-        this.logRepository = logRepository;
+    public PriceAdjustmentLogServiceImpl(PriceAdjustmentLogRepository logRepo) {
+        this.logRepo = logRepo;
     }
 
     @Override
     public List<PriceAdjustmentLog> getAdjustmentsByEvent(Long eventId) {
-        return logRepository.findByEventId(eventId);
+        return logRepo.findByEventId(eventId);
+    }
+
+    @Override
+    public List<PriceAdjustmentLog> getAllAdjustments() {
+        return logRepo.findAll();
     }
 }

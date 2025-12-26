@@ -11,12 +11,10 @@ public class JwtTokenProvider {
 
     private final String secretKey;
     private final long validityInMilliseconds;
-    private final boolean encodeSecret;
 
     public JwtTokenProvider(String secretKey, long validityInMilliseconds, boolean encodeSecret) {
         this.secretKey = secretKey;
         this.validityInMilliseconds = validityInMilliseconds;
-        this.encodeSecret = encodeSecret;
     }
 
     public String generateToken(Authentication authentication, Long userId, String role) {
@@ -43,19 +41,15 @@ public class JwtTokenProvider {
     }
 
     public Map<String, Object> getAllClaims(String token) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(secretKey.getBytes())
-                    .parseClaimsJws(token)
-                    .getBody();
-            Map<String, Object> map = new HashMap<>();
-            map.put("userId", claims.get("userId"));
-            map.put("role", claims.get("role"));
-            map.put("email", claims.get("email"));
-            return map;
-        } catch (JwtException | IllegalArgumentException e) {
-            throw new RuntimeException("Invalid JWT token");
-        }
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey.getBytes())
+                .parseClaimsJws(token)
+                .getBody();
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", claims.get("userId"));
+        map.put("role", claims.get("role"));
+        map.put("email", claims.get("email"));
+        return map;
     }
 
     public boolean validateToken(String token) {

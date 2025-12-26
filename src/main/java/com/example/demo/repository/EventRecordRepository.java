@@ -1,11 +1,24 @@
-package com.example.demo.repository;
+package com.example.demo.model;
 
-import com.example.demo.model.EventRecord;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-@Repository
-public interface EventRecordRepository extends JpaRepository<EventRecord, Long> {
+@Entity
+public class PriceAdjustmentLog {
 
-    EventRecord findByEventCode(String eventCode);
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private Long eventId;
+    private Double oldPrice;
+    private Double newPrice;
+    private LocalDateTime changedAt;
+
+    @PrePersist
+    public void prePersist() {
+        changedAt = LocalDateTime.now();
+    }
+
+    // getters & setters
 }

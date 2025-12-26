@@ -17,17 +17,13 @@ public class EventRecordServiceImpl implements EventRecordService {
 
     @Override
     public EventRecord createEvent(EventRecord event) {
-        return repository.save(event); // ✅ DB SAVE
+        return repository.save(event);
     }
 
     @Override
     public EventRecord getEventById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    @Override
-    public EventRecord getEventByCode(String eventCode) {
-        return repository.findByEventCode(eventCode);
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Event not found"));
     }
 
     @Override
@@ -36,11 +32,15 @@ public class EventRecordServiceImpl implements EventRecordService {
     }
 
     @Override
-    public void updateEventStatus(Long id, boolean active) {
-        EventRecord event = repository.findById(id).orElse(null);
-        if (event != null) {
-            event.setActive(active);
-            repository.save(event);
-        }
+    public EventRecord updateEvent(Long id, EventRecord event) {
+        EventRecord existing = getEventById(id);
+        existing.setEventName(event.getEventName());
+        existing.setActive(event.isActive());
+        return repository.save(existing);
+    }
+
+    @Override
+    public void deleteEvent(Long id) {
+        repository.deleteById(id);
     }
 }

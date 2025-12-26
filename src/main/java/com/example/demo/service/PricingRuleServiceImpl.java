@@ -1,8 +1,7 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.model.PricingRule;
 import com.example.demo.repository.PricingRuleRepository;
-import com.example.demo.service.PricingRuleService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,42 +17,30 @@ public class PricingRuleServiceImpl implements PricingRuleService {
 
     @Override
     public PricingRule createRule(PricingRule rule) {
-        return repository.save(rule); // ✅ save to DB
-    }
-
-    @Override
-    public PricingRule updateRule(Long id, PricingRule updatedRule) {
-        PricingRule existing = repository.findById(id).orElse(null);
-
-        if (existing != null) {
-            existing.setRuleCode(updatedRule.getRuleCode());
-            existing.setDescription(updatedRule.getDescription());
-            existing.setPriceMultiplier(updatedRule.getPriceMultiplier());
-            existing.setActive(updatedRule.isActive());
-            return repository.save(existing); // ✅ update DB
-        }
-        return null;
-    }
-
-    @Override
-    public PricingRule getRuleByCode(String ruleCode) {
-        return repository.findAll()
-                .stream()
-                .filter(rule -> rule.getRuleCode().equals(ruleCode))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public List<PricingRule> getActiveRules() {
-        return repository.findAll()
-                .stream()
-                .filter(PricingRule::isActive)
-                .toList();
+        return repository.save(rule);
     }
 
     @Override
     public List<PricingRule> getAllRules() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<PricingRule> getActiveRules() {
+        return repository.findByActiveTrue();
+    }
+
+    @Override
+    public PricingRule updateRule(Long id, PricingRule rule) {
+        PricingRule existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Rule not found"));
+        existing.setRuleName(rule.getRuleName());
+        existing.setActive(rule.isActive());
+        return repository.save(existing);
+    }
+
+    @Override
+    public void deleteRule(Long id) {
+        repository.deleteById(id);
     }
 }

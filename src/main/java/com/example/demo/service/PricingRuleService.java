@@ -1,16 +1,18 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.PricingRule;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface PricingRuleService {
 
-    // Existing methods
-    PricingRule updateRule(Long id, PricingRule rule);
-    List<PricingRule> getActiveRules();
+    PricingRule createRule(PricingRule rule) throws BadRequestException;
 
-    // New methods required by controller
-    PricingRule createRule(PricingRule rule);
-    PricingRule getRuleByCode(String ruleCode);
+    Optional<PricingRule> getRuleByCode(String ruleCode);
+
     List<PricingRule> getAllRules();
+
+    List<PricingRule> getActiveRules();
 }

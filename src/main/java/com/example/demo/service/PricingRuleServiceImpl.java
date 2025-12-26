@@ -1,48 +1,47 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.exception.BadRequestException;
 import com.example.demo.model.PricingRule;
 import com.example.demo.repository.PricingRuleRepository;
 import com.example.demo.service.PricingRuleService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PricingRuleServiceImpl implements PricingRuleService {
 
-    @Autowired
-    private PricingRuleRepository repository;
+    private final PricingRuleRepository pricingRuleRepository;
 
-    @Override
-    public PricingRule createRule(PricingRule rule) {
-        return repository.save(rule);
+    public PricingRuleServiceImpl(PricingRuleRepository pricingRuleRepository) {
+        this.pricingRuleRepository = pricingRuleRepository;
     }
 
     @Override
-    public PricingRule updateRule(Long id, PricingRule rule) {
-        PricingRule existing = repository.findById(id).orElse(null);
-        if (existing != null) {
-            existing.setRuleCode(rule.getRuleCode());
-            existing.setRuleName(rule.getRuleName());
-            existing.setActive(rule.isActive());
-            repository.save(existing);
+    public PricingRule createRule(PricingRule rule) throws BadRequestException {
+        if (rule.getPriceMultiplier() <= 0) {
+            throw new BadRequestException("Price multiplier must be > 0");
         }
-        return existing;
+        if (pricingRuleRepository.findByRuleCode(rule.getRuleCode()).isPresent()) {
+            throw new BadRequestException("Rule code already exists");
+        }
+        rule.setActive(true);
+        return pricingRuleRepository.save(rule);
     }
 
     @Override
-    public PricingRule getRuleByCode(String ruleCode) {
-        return repository.findByRuleCode(ruleCode);
-    }
-
-    @Override
-    public List<PricingRule> getActiveRules() {
-        return repository.findAll().stream().filter(PricingRule::isActive).toList();
+    public Optional<PricingRule> getRuleByCode(String ruleCode) {
+        return pricingRuleRepository.findByRuleCode(ruleCode);
     }
 
     @Override
     public List<PricingRule> getAllRules() {
-        return repository.findAll();
+        return pricingRuleRepository.findAll();
+    }
+
+    @Override
+    public List<PricingRule> getActiveRules() {
+        return pricingRuleRepository.findByActiveTrue();
     }
 }

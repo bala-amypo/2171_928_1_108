@@ -9,7 +9,9 @@ import java.util.Optional;
 public interface DynamicPriceRecordRepository
         extends JpaRepository<DynamicPriceRecord, Long> {
 
-    List<DynamicPriceRecord> findByEventIdOrderByComputedAtDesc(Long eventId);
+    Optional<DynamicPriceRecord>
+    findFirstByEventIdOrderByComputedAtDesc(Long eventId);
 
-    Optional<DynamicPriceRecord> findFirstByEventIdOrderByComputedAtDesc(Long eventId);
+    List<DynamicPriceRecord>
+    findByEventIdOrderByComputedAtDesc(Long eventId);
 }

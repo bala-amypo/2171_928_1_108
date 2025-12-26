@@ -1,33 +1,49 @@
 package com.example.demo.security;
 
-import com.example.demo.model.User;
-import com.example.demo.repository.UserRepository;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.*;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final Map<String, Map<String, Object>> users = new HashMap<>();
+    private long idCounter = 1;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public Map<String, Object> registerUser(
+            String name,
+            String email,
+            String password,
+            String role) {
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("userId", idCounter++);
+        user.put("name", name);
+        user.put("email", email);
+        user.put("password", password);
+        user.put("role", role);
+
+        users.put(email, user);
+        return user;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new UsernameNotFoundException("User not found"));
+        Map<String, Object> user = users.get(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
 
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
-                .password("password") // demo password
-                .roles("USER")
+        return User.builder()
+                .username(email)
+                .password((String) user.get("password"))
+                .roles(user.get("role").toString())
                 .build();
     }
 }

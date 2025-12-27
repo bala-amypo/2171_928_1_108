@@ -23,21 +23,28 @@ public class EventRecordServiceImpl implements EventRecordService {
 
     @Override
     public EventRecord createEvent(EventRecord event) {
+
+        if (event.getEventCode() == null || event.getEventCode().isBlank()) {
+            throw new BadRequestException("Event code is required");
+        }
+
         if (event.getBasePrice() == null || event.getBasePrice() <= 0) {
             throw new BadRequestException("Base price must be > 0");
         }
-        
+
         if (eventRecordRepository.existsByEventCode(event.getEventCode())) {
-            throw new BadRequestException("Event code already exists: " + event.getEventCode());
+            throw new BadRequestException(
+                    "Event code already exists: " + event.getEventCode());
         }
-        
+
         return eventRecordRepository.save(event);
     }
 
     @Override
     public EventRecord getEventById(Long id) {
         return eventRecordRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Event not found with id: " + id));
+                .orElseThrow(() ->
+                        new NotFoundException("Event not found with id: " + id));
     }
 
     @Override
@@ -52,8 +59,14 @@ public class EventRecordServiceImpl implements EventRecordService {
 
     @Override
     public EventRecord updateEventStatus(Long id, Boolean active) {
+
+        if (active == null) {
+            throw new BadRequestException("Active status is required");
+        }
+
         EventRecord event = getEventById(id);
         event.setActive(active);
+
         return eventRecordRepository.save(event);
     }
 

@@ -23,7 +23,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         user.put("role", role);
         
         userStore.put(email, user);
-        return user;
+        return user;    
     }
 
     @Override

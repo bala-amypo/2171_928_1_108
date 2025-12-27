@@ -22,32 +22,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(User user) {
-
-        if (user.getEmail() == null || user.getEmail().isBlank()) {
-            throw new BadRequestException("Email is required");
-        }
-
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestException(
-                    "User already exists with email: " + user.getEmail()
-            );
+            throw new BadRequestException("User already exists with email: " + user.getEmail());
         }
-
+        
         return userRepository.save(user);
     }
 
     @Override
     public User getUserById(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() ->
-                        new NotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
     }
 
     @Override
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() ->
-                        new NotFoundException("User not found with email: " + email));
+                .orElseThrow(() -> new NotFoundException("User not found with email: " + email));
     }
 
     @Override

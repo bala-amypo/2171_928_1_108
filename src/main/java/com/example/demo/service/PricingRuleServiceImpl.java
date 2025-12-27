@@ -20,19 +20,24 @@ public class PricingRuleServiceImpl implements PricingRuleService {
 
     @Override
     public PricingRule updateRule(Long id, PricingRule rule) {
-        PricingRule existingRule = pricingRuleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PricingRule not found with id: " + id));
+        PricingRule existing = pricingRuleRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("PricingRule not found with id " + id));
 
-        existingRule.setRuleName(rule.getRuleName());
-        existingRule.setRuleValue(rule.getRuleValue());
+        // ✅ MATCHES YOUR ENTITY EXACTLY
+        existing.setRuleCode(rule.getRuleCode());
+        existing.setMinRemainingSeats(rule.getMinRemainingSeats());
+        existing.setMaxRemainingSeats(rule.getMaxRemainingSeats());
+        existing.setDaysBeforeEvent(rule.getDaysBeforeEvent());
+        existing.setPriceMultiplier(rule.getPriceMultiplier());
+        existing.setActive(rule.getActive());
 
-        return pricingRuleRepository.save(existingRule);
+        return pricingRuleRepository.save(existing);
     }
 
     @Override
     public PricingRule getRuleById(Long id) {
         return pricingRuleRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("PricingRule not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("PricingRule not found with id " + id));
     }
 
     @Override
@@ -41,7 +46,12 @@ public class PricingRuleServiceImpl implements PricingRuleService {
     }
 
     @Override
-    public void deleteRule(Long id) {   // ✅ MISSING METHOD FIXED
+    public List<PricingRule> getActiveRules() {
+        return pricingRuleRepository.findByActiveTrue();
+    }
+
+    @Override
+    public void deleteRule(Long id) {
         pricingRuleRepository.deleteById(id);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.model.PricingRule;
+
 import java.util.List;
 
 public interface PricingRuleService {
@@ -13,7 +14,7 @@ public interface PricingRuleService {
 
     List<PricingRule> getAllRules();
 
-    List<PricingRule> getActiveRules();   // ✅ ADD THIS
+    List<PricingRule> getActiveRules();
 
     void deleteRule(Long id);
 }

@@ -26,7 +26,7 @@ public class OpenApiConfig {
                                 .name("API Support")
                                 .email("support@example.com")))
                 .servers(List.of(
-                        new Server().url("https://9101.32procr.amypo.ai/") 
+                        new Server().url("") 
                 ))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components()
